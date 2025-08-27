@@ -1,0 +1,310 @@
+body {
+    background: #f8f5ed;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    color: #2d210c;
+    margin: 0;
+    padding: 0;
+}
+
+/* Panel y tarjeta */
+.admin-container, .invitation {
+    background: #fffdf7;
+    max-width: 500px;
+    margin: 40px auto 0 auto;
+    padding: 2.8em 2em 2.2em 2em;
+    border-radius: 28px;
+    box-shadow: 0 6px 32px rgba(163, 131, 58, 0.10);
+    border: 3px solid #e3c77a;
+    text-align: center;
+    position: relative;
+}
+
+/* Títulos */
+h1, h2, h3 {
+    color: #222;
+    font-weight: bold;
+    margin-bottom: 0.7em;
+}
+
+h1 {
+    font-size: 2.3em;
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+h3 {
+    font-size: 1.2em;
+    margin-top: 0.5em;
+}
+
+/* Generador de links */
+.generator {
+    margin-bottom: 2em;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+}
+
+#guestNameInput {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1.5px solid #cfa7a7;
+    font-size: 1em;
+    width: 220px;
+    background: #fff;
+    color: #222;
+    transition: border 0.2s;
+}
+
+#guestNameInput:focus {
+    border: 1.5px solid #b97c7c;
+    outline: none;
+}
+
+#generateLinkBtn {
+    background: #cfa7a7;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#generateLinkBtn:hover {
+    background: #b97c7c;
+}
+
+.generated-link {
+    margin-bottom: 1.5em;
+    font-size: 1em;
+}
+
+/* Tabla de invitados */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5em;
+    background: #fffbe9;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-table th, .admin-table td {
+    border: 1px solid #f3e7c3;
+    padding: 12px 8px;
+    text-align: center;
+}
+
+.admin-table th {
+    background: #fff6d6;
+    color: #222;
+    font-weight: bold;
+}
+
+.admin-table tr:nth-child(even) {
+    background: #fffbe9;
+}
+
+.admin-table tr:nth-child(odd) {
+    background: #fff;
+}
+
+.delete-btn {
+    background: #cfa7a7;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.2s;
+}
+
+.delete-btn:hover {
+    background: #b97c7c;
+}
+
+.clear-btn {
+    background: #e6a6a6;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 28px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 1em;
+    transition: background 0.2s;
+}
+
+.clear-btn:hover {
+    background: #cfa7a7;
+}
+
+/* Invitación */
+.invitation h2 {
+    margin-top: 0;
+    font-size: 2em;
+    letter-spacing: 1px;
+    color: #a97c7c;
+}
+
+.wedding-logo {
+    font-size: 2.7em;
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: #b89c4c;
+    letter-spacing: 2px;
+    margin-top: 0.2em;
+}
+.wedding-logo::before,
+.wedding-logo::after {
+    content: "🌿";
+    margin: 0 0.2em;
+    font-size: 1.1em;
+    color: #b89c4c;
+}
+
+.main-title {
+    font-family: 'Georgia', serif;
+    font-size: 2.2em;
+    color: #2d210c;
+    margin-bottom: 0.2em;
+    margin-top: 0;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 1.13em;
+    color: #a3833a;
+    margin-bottom: 1.2em;
+    margin-top: 0.5em;
+}
+
+.details {
+    font-size: 1.08em;
+    color: #2d210c;
+    margin-bottom: 1.2em;
+    line-height: 1.6;
+}
+
+.dear {
+    font-size: 1.18em;
+    color: #2d210c;
+    margin: 1.2em 0 0.7em 0;
+    font-weight: bold;
+}
+
+.question {
+    font-size: 1.22em;
+    color: #2d210c;
+    margin: 1.2em 0 1em 0;
+    font-family: 'Georgia', serif;
+}
+
+.confirmation-button {
+    background: #4d6b4a;
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    padding: 18px 0;
+    margin: 18px 0 10px 0;
+    font-size: 1.22em;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(163, 131, 58, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7em;
+    width: 100%;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: 0.5px;
+}
+
+.confirmation-button[disabled] {
+    background: #ccc !important;
+    color: #fff !important;
+    cursor: not-allowed;
+}
+
+.confirmation-button:hover {
+    background: #35512d;
+}
+
+.stay-button {
+    background: #fffdf7;
+    color: #2d210c;
+    border: 2px solid #b89c4c;
+    border-radius: 14px;
+    padding: 16px 0;
+    margin: 18px 0 0 0;
+    font-size: 1.13em;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7em;
+    width: 100%;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: 0.5px;
+}
+
+.stay-button:hover {
+    background: #b89c4c;
+    color: #fffdf7;
+    border: 2px solid #b89c4c;
+}
+
+#responseMessage {
+    margin-top: 1.5em;
+    font-weight: bold;
+    color: #4d6b4a;
+    font-size: 1.13em;
+}
+
+.couple {
+    font-family: 'Georgia', serif;
+    font-size: 1.5em;
+    color: #b89c4c;
+    margin: 2em 0 0.5em 0;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.footer {
+    font-size: 1.07em;
+    color: #2d210c;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+    .invitation {
+        max-width: 98vw;
+        padding: 1em 0.5em;
+    }
+    .confirmation-button, .stay-button {
+        font-size: 1em;
+        padding: 14px 0;
+        max-width: 98vw;
+    }
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Invitaciones</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+<div class="admin-container">
+    <h1>Gestión de Invitaciones</h1>
+    <div class="generator">
+        <input type="text" id="guestNameInput" placeholder="Nombre del invitado">
+        <button id="generateLinkBtn">Generar link</button>
+    </div>
+    <div class="generated-link" id="generatedLink"></div>
+    <h2>Lista de Invitados</h2>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Invitado</th>
+                <th>Link</th>
+                <th>¿Asiste?</th>
+                <th>¿Descansa?</th>
+                <th>Borrar</th>
+            </tr>
+        </thead>
+        <tbody id="confirmedList"></tbody>
+    </table>
+    <button id="clearAllBtn" class="clear-btn">Borrar TODAS las invitaciones</button>
+</div>
+<script type="module" src="scripts/admin.js"></script>
+</body>
+</html>
