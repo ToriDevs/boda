@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/invitados';
+const API_URL = '/api/invitados';
 
 document.addEventListener('DOMContentLoaded', async function () {
     const urlParams = new URLSearchParams(window.location.search);

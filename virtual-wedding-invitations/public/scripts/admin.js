@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api/invitados';
+const API_URL = '/api/invitados';
 
 document.addEventListener('DOMContentLoaded', function() {
     const guestNameInput = document.getElementById('guestNameInput');
