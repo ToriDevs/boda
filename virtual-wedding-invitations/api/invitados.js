@@ -14,16 +14,16 @@ export default function handler(req, res) {
     if (req.method === 'GET') {
         res.status(200).json(invitados);
     } else if (req.method === 'POST') {
-        let { nombre, asistencia, descansa } = body;
+        let { nombre, asistencia, hospedaje } = body;
         if (!nombre) return res.status(400).json({ error: "El nombre es obligatorio" });
         nombre = nombre.trim().toLowerCase();
         let invitado = invitados.find(i => i.nombre === nombre);
         if (!invitado) {
-            invitado = { nombre, asistencia: null, descansa: null };
+            invitado = { nombre, asistencia: null, hospedaje: null };
             invitados.push(invitado);
         }
         if (asistencia !== undefined) invitado.asistencia = asistencia;
-        if (descansa !== undefined) invitado.descansa = descansa;
+        if (hospedaje !== undefined) invitado.hospedaje = hospedaje;
         res.status(200).json({ success: true, invitado });
     } else if (req.method === 'DELETE') {
         if (req.query.nombre) {

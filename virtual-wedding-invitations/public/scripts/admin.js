@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${data.nombre}</td>
                 <td><a href="${url}" target="_blank">Ver invitación</a></td>
                 <td>${data.asistencia === true ? 'Sí' : (data.asistencia === false ? 'No' : '')}</td>
-                <td>${data.descansa === true ? 'Sí' : (data.descansa === false ? 'No' : '')}</td>
+                <td>${data.hospedaje === true ? 'Sí' : (data.hospedaje === false ? 'No' : '')}</td>
                 <td><button class="delete-btn" title="Borrar invitación" data-name="${data.nombre}">✖</button></td>
             `;
             confirmedList.appendChild(tr);

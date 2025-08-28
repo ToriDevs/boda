@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const guestName = urlParams.get('guest')?.trim();
     const dearGuest = document.getElementById('dearGuest');
     const confirmButton = document.getElementById('confirmButton');
-    const stayYes = document.getElementById('stayYes');
+    const hospedajeButton = document.getElementById('hospedajeButton');
     const responseMessage = document.getElementById('responseMessage');
 
     // Personaliza el saludo
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     } else {
         dearGuest.textContent = "Querido/a invitado/a, ¡te esperamos con mucha ilusión!";
         confirmButton.disabled = true;
-        stayYes.disabled = true;
+        hospedajeButton.disabled = true;
     }
 
     // Botón de confirmar asistencia
@@ -27,13 +27,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         responseMessage.textContent = "¡Gracias por confirmar tu asistencia!";
     });
 
-    // Botón de quedarse a dormir
-    stayYes.addEventListener('click', async () => {
+    // Botón de hospedaje
+    hospedajeButton.addEventListener('click', async () => {
         await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre: guestName, descansa: true })
+            body: JSON.stringify({ nombre: guestName, hospedaje: true })
         });
-        responseMessage.textContent = "¡Te reservamos estancia!";
+        responseMessage.textContent = "¡Te reservamos hospedaje!";
     });
 });
