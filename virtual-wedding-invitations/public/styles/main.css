@@ -141,6 +141,19 @@ body {
     text-align: left;
 }
 
+.dear-guest-box {
+    margin: 1.5em 0 0.5em 0;
+    text-align: center;
+}
+.dear-guest-text {
+    font-family: 'Playfair Display', 'Lora', serif;
+    font-size: 1.25em;
+    color: var(--oro, #bfa14a);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    margin: 0;
+}
+
 .personal-message {
     font-size: 1.08em;
     color: var(--olivo);
