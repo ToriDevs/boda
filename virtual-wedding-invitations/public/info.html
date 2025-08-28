@@ -5,20 +5,66 @@
     <title>Más información - Boda Guillermo & Alejandra</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .info-section {
+            max-width: 520px;
+            margin: 0 auto 2em auto;
+            text-align: left;
+            background: #f8f5f0;
+            border-radius: 16px;
+            padding: 2em 2em 1.5em 2em;
+            box-shadow: 0 2px 16px rgba(163, 131, 58, 0.07);
+        }
+        .info-section p {
+            margin-bottom: 1.1em;
+            font-size: 1.09em;
+        }
+        .info-section b {
+            color: var(--olivo);
+        }
+        .info-section .map-link {
+            color: var(--oro);
+            text-decoration: underline;
+            font-weight: 600;
+        }
+        .info-section .map-link:hover {
+            color: var(--olivo);
+        }
+        .info-section .icon-location {
+            margin-right: 0.4em;
+        }
+        .info-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--olivo);
+            font-size: 1.35em;
+            margin-bottom: 1.2em;
+            text-align: center;
+        }
+        .back-link {
+            display: block;
+            margin: 2em auto 0 auto;
+            width: fit-content;
+        }
+    </style>
 </head>
 <body>
     <div class="invitation decorative-border">
-        <h1 class="main-title">Más información</h1>
-        <div class="details-list" style="text-align:left; max-width:500px; margin:auto;">
-            <p><b>Dirección:</b> <a href="https://www.google.com/maps/dir//Lugar+da+Pedreira,+27843+Vilalba,+Lugo/@43.3136347,-7.5496423,685m/data=!3m1!1e3!4m9!4m8!1m0!1m5!1m1!1s0xd31ef54f16f9fa5:0xeb4d0f14f3c5d53d!2m2!1d-7.5496423!2d43.3136347!3e0?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="map-link">Lugar da Pedreira, Lugo</a></p>
+        <div class="info-title">Más información</div>
+        <div class="info-section">
+            <p>
+                <span class="icon icon-location"></span>
+                <b>Dirección:</b>
+                <a href="https://www.google.com/maps/dir//Lugar+da+Pedreira,+27843+Vilalba,+Lugo/@43.3136347,-7.5496423,685m/data=!3m1!1e3!4m9!4m8!1m0!1m5!1m1!1s0xd31ef54f16f9fa5:0xeb4d0f14f3c5d53d!2m2!1d-7.5496423!2d43.3136347!3e0?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D"
+                   target="_blank" class="map-link">
+                    Lugar da Pedreira, Lugo
+                </a>
+            </p>
             <p><b>Horario recomendado de llegada:</b> 16:00</p>
             <p><b>Dress code:</b> Semi-formal</p>
             <p><b>Hospedaje:</b> Si necesitas hospedaje, por favor indícalo al confirmar tu asistencia.</p>
             <p><b>Contacto:</b> Para cualquier duda, puedes escribirnos a <a href="mailto:boda@ejemplo.com">boda@ejemplo.com</a>.</p>
         </div>
-        <div style="margin-top:2em;">
-            <a href="index.html" class="confirmation-button btn-secundario" style="width:auto; padding: 0.6em 2em;">Volver</a>
-        </div>
+        <a href="index.html" class="confirmation-button btn-secundario back-link">Volver</a>
     </div>
 </body>
 </html>

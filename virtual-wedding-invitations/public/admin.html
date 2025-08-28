@@ -2,31 +2,118 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Panel de Invitaciones</title>
+    <title>Panel de Administración - Boda</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/main.css">
+    <style>
+        body {
+            background: var(--marfil);
+        }
+        .admin-panel {
+            max-width: 700px;
+            margin: 5vw auto 0 auto;
+            background: var(--blanco);
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(163, 131, 58, 0.10);
+            padding: 2.5em 2em 2em 2em;
+        }
+        .admin-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--olivo);
+            font-size: 1.6em;
+            margin-bottom: 1.2em;
+            text-align: center;
+        }
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2em;
+        }
+        .admin-table th, .admin-table td {
+            border: 1px solid var(--oro);
+            padding: 0.7em 0.5em;
+            text-align: center;
+            font-size: 1em;
+        }
+        .admin-table th {
+            background: var(--marfil);
+            color: var(--olivo);
+            font-weight: 700;
+        }
+        .admin-table tr:nth-child(even) {
+            background: #faf8f4;
+        }
+        .admin-actions {
+            display: flex;
+            gap: 0.5em;
+            justify-content: center;
+        }
+        .admin-btn {
+            background: var(--olivo);
+            color: var(--blanco);
+            border: none;
+            border-radius: 6px;
+            padding: 0.4em 1em;
+            font-size: 0.98em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .admin-btn.delete {
+            background: var(--oro);
+        }
+        .admin-btn:hover {
+            background: #5d7c5d;
+        }
+        .admin-btn.delete:hover {
+            background: #b8a47d;
+        }
+        .admin-footer {
+            text-align: center;
+            color: var(--olivo);
+            font-size: 1em;
+            margin-top: 2em;
+            opacity: 0.7;
+        }
+    </style>
 </head>
 <body>
-    <div class="admin-container">
-        <h1>Panel de Invitaciones</h1>
-        <div class="generator">
-            <input id="guestNameInput" type="text" placeholder="Nombre del invitado">
-            <button id="generateLinkBtn">Generar link</button>
-        </div>
-        <div id="generatedLink" class="generated-link"></div>
-        <button id="clearAllBtn" class="clear-btn">Borrar Invitaciones</button>
+    <div class="admin-panel">
+        <div class="admin-title">Panel de Administración</div>
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th>Nombre</th>
-                    <th>Link</th>
-                    <th>¿Asiste?</th>
-                    <th>¿Hospedaje?</th>
-                    <th></th>
+                    <th>Invitado</th>
+                    <th>Asistencia</th>
+                    <th>Hospedaje</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody id="confirmedList"></tbody>
+            <tbody>
+                <!-- Ejemplo de fila, reemplazar por datos reales -->
+                <tr>
+                    <td>Juan Pérez</td>
+                    <td>Confirmado</td>
+                    <td>Sí</td>
+                    <td class="admin-actions">
+                        <button class="admin-btn">Editar</button>
+                        <button class="admin-btn delete">Eliminar</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>María López</td>
+                    <td>No asistirá</td>
+                    <td>No</td>
+                    <td class="admin-actions">
+                        <button class="admin-btn">Editar</button>
+                        <button class="admin-btn delete">Eliminar</button>
+                    </td>
+                </tr>
+                <!-- Más filas aquí -->
+            </tbody>
         </table>
+        <div class="admin-footer">
+            &copy; 2025 Guillermo & Alejandra
+        </div>
     </div>
-    <script type="module" src="scripts/admin.js"></script>
 </body>
 </html>
