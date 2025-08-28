@@ -6,8 +6,7 @@ body {
     padding: 0;
 }
 
-/* Panel y tarjeta */
-.admin-container, .invitation {
+.invitation {
     background: #fffdf7;
     max-width: 500px;
     margin: 40px auto 0 auto;
@@ -17,141 +16,6 @@ body {
     border: 3px solid #e3c77a;
     text-align: center;
     position: relative;
-}
-
-/* Títulos */
-h1, h2, h3 {
-    color: #222;
-    font-weight: bold;
-    margin-bottom: 0.7em;
-}
-
-h1 {
-    font-size: 2.3em;
-    margin-top: 0;
-}
-
-h2 {
-    font-size: 1.5em;
-}
-
-h3 {
-    font-size: 1.2em;
-    margin-top: 0.5em;
-}
-
-/* Generador de links */
-.generator {
-    margin-bottom: 2em;
-    display: flex;
-    gap: 1em;
-    align-items: center;
-    justify-content: center;
-}
-
-#guestNameInput {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1.5px solid #cfa7a7;
-    font-size: 1em;
-    width: 220px;
-    background: #fff;
-    color: #222;
-    transition: border 0.2s;
-}
-
-#guestNameInput:focus {
-    border: 1.5px solid #b97c7c;
-    outline: none;
-}
-
-#generateLinkBtn {
-    background: #cfa7a7;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 22px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-#generateLinkBtn:hover {
-    background: #b97c7c;
-}
-
-.generated-link {
-    margin-bottom: 1.5em;
-    font-size: 1em;
-}
-
-/* Tabla de invitados */
-.admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1.5em;
-    background: #fffbe9;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.admin-table th, .admin-table td {
-    border: 1px solid #f3e7c3;
-    padding: 12px 8px;
-    text-align: center;
-}
-
-.admin-table th {
-    background: #fff6d6;
-    color: #222;
-    font-weight: bold;
-}
-
-.admin-table tr:nth-child(even) {
-    background: #fffbe9;
-}
-
-.admin-table tr:nth-child(odd) {
-    background: #fff;
-}
-
-.delete-btn {
-    background: #cfa7a7;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 6px 12px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background 0.2s;
-}
-
-.delete-btn:hover {
-    background: #b97c7c;
-}
-
-.clear-btn {
-    background: #e6a6a6;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 28px;
-    font-size: 1.1em;
-    cursor: pointer;
-    margin-top: 1em;
-    transition: background 0.2s;
-}
-
-.clear-btn:hover {
-    background: #cfa7a7;
-}
-
-/* Invitación */
-.invitation h2 {
-    margin-top: 0;
-    font-size: 2em;
-    letter-spacing: 1px;
-    color: #a97c7c;
 }
 
 .wedding-logo {
@@ -297,10 +161,155 @@ h3 {
     line-height: 1.5;
 }
 
+/* Panel de administración */
+.admin-container {
+    background: #fffdf7;
+    max-width: 700px;
+    margin: 40px auto 0 auto;
+    padding: 2.5em 2em 2em 2em;
+    border-radius: 24px;
+    box-shadow: 0 4px 24px rgba(163, 131, 58, 0.08);
+    border: 3px solid #e3c77a;
+    text-align: center;
+}
+
+h1, h2, h3 {
+    color: #4d3c1c;
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    margin-bottom: 0.7em;
+}
+
+h1 {
+    font-size: 2.1em;
+    margin-top: 0;
+}
+
+h2 {
+    font-size: 1.3em;
+}
+
+.generator {
+    margin-bottom: 2em;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+}
+
+#guestNameInput {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1.5px solid #e3c77a;
+    font-size: 1em;
+    width: 220px;
+    background: #fff;
+    color: #a3833a;
+    transition: border 0.2s;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+#guestNameInput:focus {
+    border: 1.5px solid #a3833a;
+    outline: none;
+}
+
+#generateLinkBtn {
+    background: #a3833a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+#generateLinkBtn:hover {
+    background: #4d6b4a;
+}
+
+.generated-link {
+    margin-bottom: 1.5em;
+    font-size: 1em;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5em;
+    background: #fffbe9;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-table th, .admin-table td {
+    border: 1px solid #e3c77a;
+    padding: 12px 8px;
+    text-align: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.admin-table th {
+    background: #fff6d6;
+    color: #a3833a;
+    font-weight: bold;
+}
+
+.admin-table tr:nth-child(even) {
+    background: #fffbe9;
+}
+
+.admin-table tr:nth-child(odd) {
+    background: #fff;
+}
+
+.delete-btn {
+    background: #a3833a;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.2s;
+}
+
+.delete-btn:hover {
+    background: #4d6b4a;
+}
+
+.clear-btn {
+    background: #e3c77a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 28px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 1em;
+    transition: background 0.2s;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.clear-btn:hover {
+    background: #a3833a;
+}
+
 @media (max-width: 700px) {
-    .invitation {
+    .admin-container, .invitation {
         max-width: 98vw;
         padding: 1em 0.5em;
+    }
+    .admin-table th, .admin-table td {
+        padding: 7px 3px;
+        font-size: 0.95em;
+    }
+    .generator {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5em;
     }
     .confirmation-button, .stay-button {
         font-size: 1em;
