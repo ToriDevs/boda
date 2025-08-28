@@ -1,58 +1,64 @@
-import { createClient } from '@supabase/supabase-js';
+const express = require('express');
+const { createClient } = require('@supabase/supabase-js');
+const router = express.Router();
 
-const supabaseUrl = 'https://yvakismtvwvjxylkorye.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
-const supabase = createClient(supabaseUrl, supabaseKey);
+const SUPABASE_URL = 'https://yvakismtvwvjxylkorye.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
 
-export default async function handler(req, res) {
-    res.setHeader('Content-Type', 'application/json');
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    let body = req.body;
-    if (!body) {
-        // Vercel sometimes puts the body as a string in req.body
-        try {
-            body = await new Promise((resolve, reject) => {
-                let data = '';
-                req.on('data', chunk => { data += chunk; });
-                req.on('end', () => {
-                    try { resolve(JSON.parse(data)); }
-                    catch { resolve({}); }
-                });
-            });
-        } catch {
-            body = {};
-        }
-    }
-    if (typeof body === 'string') {
-        try { body = JSON.parse(body); } catch { body = {}; }
-    }
+// Listar todos los invitados
+router.get('/', async (req, res) => {
+    const { data, error } = await supabase
+        .from('invitados')
+        .select('*')
+        .order('created_at', { ascending: true });
+    if (error) return res.status(500).json({ error: error.message });
+    res.json(data);
+});
 
-    if (req.method === 'GET') {
-        const { data, error } = await supabase.from('invitados').select('*');
-        if (error) return res.status(500).json({ error: error.message });
-        return res.status(200).json(data);
-    } else if (req.method === 'POST') {
-        let { nombre, asistencia, hospedaje } = body;
-        if (!nombre) return res.status(400).json({ error: "El nombre es obligatorio" });
+// Añadir o actualizar invitado
+router.post('/', async (req, res) => {
+    const { nombre, asistencia, hospedaje } = req.body;
+    if (!nombre) return res.status(400).json({ error: 'Nombre requerido' });
 
-        const { data, error } = await supabase
+    // Buscar si ya existe
+    const { data: existing, error: findError } = await supabase
+        .from('invitados')
+        .select('*')
+        .eq('nombre', nombre)
+        .maybeSingle();
+
+    if (findError) return res.status(500).json({ error: findError.message });
+
+    if (existing) {
+        // Actualizar
+        const { error: updateError } = await supabase
             .from('invitados')
-            .upsert([{ nombre, asistencia, hospedaje }], { onConflict: ['nombre'] })
-            .select();
-        if (error) return res.status(500).json({ error: error.message });
-        return res.status(200).json({ success: true, invitado: data[0] });
-    } else if (req.method === 'DELETE') {
-        if (req.query.nombre) {
-            const nombre = req.query.nombre;
-            const { error } = await supabase.from('invitados').delete().eq('nombre', nombre);
-            if (error) return res.status(500).json({ error: error.message });
-            return res.status(200).json({ success: true });
-        } else {
-            const { error } = await supabase.from('invitados').delete().neq('nombre', '');
-            if (error) return res.status(500).json({ error: error.message });
-            return res.status(200).json({ success: true });
-        }
+            .update({ asistencia, hospedaje })
+            .eq('id', existing.id);
+        if (updateError) return res.status(500).json({ error: updateError.message });
+        return res.json({ ok: true, updated: true });
     } else {
-        return res.status(405).json({ error: 'Método no permitido' });
+        // Insertar
+        const { error: insertError } = await supabase
+            .from('invitados')
+            .insert([{ nombre, asistencia, hospedaje }]);
+        if (insertError) return res.status(500).json({ error: insertError.message });
+        return res.json({ ok: true, created: true });
     }
-}
+});
+
+// Eliminar invitado
+router.delete('/', async (req, res) => {
+    const { nombre } = req.body;
+    if (!nombre) return res.status(400).json({ error: 'Nombre requerido' });
+    const { error } = await supabase
+        .from('invitados')
+        .delete()
+        .eq('nombre', nombre);
+    if (error) return res.status(500).json({ error: error.message });
+    res.json({ ok: true });
+});
+
+module.exports = router;

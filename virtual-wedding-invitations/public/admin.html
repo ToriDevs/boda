@@ -93,14 +93,13 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Ejemplo de fila, reemplazar por datos reales -->
+            <tbody id="adminTableBody">
+                <!-- Las filas se pueden generar dinámicamente -->
                 <tr>
                     <td>Juan Pérez</td>
                     <td>Confirmado</td>
                     <td>Sí</td>
                     <td class="admin-actions">
-                        <button class="admin-btn">Editar</button>
                         <button class="admin-btn delete">Eliminar</button>
                     </td>
                 </tr>
@@ -109,16 +108,15 @@
                     <td>No asistirá</td>
                     <td>No</td>
                     <td class="admin-actions">
-                        <button class="admin-btn">Editar</button>
                         <button class="admin-btn delete">Eliminar</button>
                     </td>
                 </tr>
-                <!-- Más filas aquí -->
             </tbody>
         </table>
         <div class="admin-footer">
             &copy; 2025 Guillermo & Alejandra
         </div>
     </div>
+    <script src="scripts/admin.js"></script>
 </body>
 </html>
