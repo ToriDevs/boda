@@ -18,12 +18,13 @@
         </div>
         <div class="dear" id="dearGuest"></div>
         <div class="question">¿Vas a venir?</div>
-        <button id="confirmButton" class="confirmation-button">
-            ✅ Confirmar asistencia
-        </button>
-        <button id="hospedajeButton" class="stay-button">
-            🛏️ Solicitar hospedaje
-        </button>
+        <div style="margin-bottom:1em;">
+            <button id="confirmYesButton" class="confirmation-button">✅ Sí, asistiré</button>
+            <button id="confirmNoButton" class="confirmation-button" style="background:#b89c4c;">❌ No podré asistir</button>
+        </div>
+        <div id="hospedajeContainer">
+            <button id="hospedajeButton" class="stay-button">🛏️ Solicitar hospedaje</button>
+        </div>
         <div id="responseMessage"></div>
         <div class="couple">
             GUILLERMO GARCÍA<br>Y ALEJANDRA ACUÑA

@@ -78,23 +78,21 @@ body {
     color: #fff;
     border: none;
     border-radius: 14px;
-    padding: 18px 0;
-    margin: 18px 0 10px 0;
-    font-size: 1.22em;
+    padding: 16px 0;
+    margin: 0 8px 0 0;
+    font-size: 1.13em;
     font-family: 'Segoe UI', Arial, sans-serif;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.2s, box-shadow 0.2s;
     box-shadow: 0 2px 8px rgba(163, 131, 58, 0.07);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.7em;
-    width: 100%;
-    max-width: 380px;
-    margin-left: auto;
-    margin-right: auto;
+    display: inline-block;
+    width: 170px;
     letter-spacing: 0.5px;
+}
+
+.confirmation-button:last-child {
+    margin-right: 0;
 }
 
 .confirmation-button[disabled] {
@@ -103,7 +101,13 @@ body {
     cursor: not-allowed;
 }
 
-.confirmation-button:hover {
+.confirmation-button.selected {
+    box-shadow: 0 0 0 3px #b89c4c;
+    background: #35512d !important;
+    color: #fff !important;
+}
+
+.confirmation-button:not(.selected):hover {
     background: #35512d;
 }
 
@@ -112,17 +116,14 @@ body {
     color: #2d210c;
     border: 2px solid #b89c4c;
     border-radius: 14px;
-    padding: 16px 0;
+    padding: 14px 0;
     margin: 18px 0 0 0;
     font-size: 1.13em;
     font-family: 'Segoe UI', Arial, sans-serif;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.2s, color 0.2s, border 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.7em;
+    display: block;
     width: 100%;
     max-width: 380px;
     margin-left: auto;
@@ -130,10 +131,22 @@ body {
     letter-spacing: 0.5px;
 }
 
-.stay-button:hover {
+.stay-button.selected {
     background: #b89c4c;
     color: #fffdf7;
     border: 2px solid #b89c4c;
+    box-shadow: 0 0 0 3px #b89c4c;
+}
+
+.stay-button:not(.selected):hover {
+    background: #b89c4c;
+    color: #fffdf7;
+    border: 2px solid #b89c4c;
+}
+
+#hospedajeContainer {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
 }
 
 #responseMessage {
@@ -141,6 +154,7 @@ body {
     font-weight: bold;
     color: #4d6b4a;
     font-size: 1.13em;
+    min-height: 1.5em;
 }
 
 .couple {
