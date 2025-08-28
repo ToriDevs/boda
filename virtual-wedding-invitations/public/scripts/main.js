@@ -1,15 +1,18 @@
-const API_URL = '/api/invitados';
+const SUPABASE_URL = 'https://yvakismtvwvjxylkorye.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Obtener nombre del invitado desde el parámetro guest (codificado en base64)
-    const urlParams = new URLSearchParams(window.location.search);
-    let guestName = urlParams.get('guest');
+document.addEventListener('DOMContentLoaded', async function() {
+    // Obtener nombre desde la URL
+    const params = new URLSearchParams(window.location.search);
+    const guestParam = params.get('guest');
+    let guestName = guestParam ? decodeURIComponent(escape(atob(guestParam))) : null;
+
+    // Buscar invitado en Supabase
+    let invitado = null;
     if (guestName) {
-        try {
-            guestName = decodeURIComponent(escape(atob(guestName)));
-        } catch (e) {
-            guestName = null;
-        }
+        const { data } = await supabase.from('invitados').select('*').eq('nombre', guestName).maybeSingle();
+        invitado = data;
     }
 
     // Elementos
@@ -49,11 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
         hospedajeButton.classList.remove('selected');
         responseMessage.textContent = "¡Gracias por confirmar tu asistencia!";
         hospedajeContainer.style.display = "block";
-        await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre: guestName, asistencia: true, hospedaje: false })
-        });
+        if (invitado) {
+            await supabase.from('invitados').update({ asistencia: true }).eq('id', invitado.id);
+        }
     });
 
     // Botón de confirmar asistencia NO
@@ -65,11 +66,9 @@ document.addEventListener('DOMContentLoaded', function() {
         hospedajeButton.classList.remove('selected');
         responseMessage.textContent = "Sentimos que no puedas asistir.";
         hospedajeContainer.style.display = "none";
-        await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre: guestName, asistencia: false, hospedaje: false })
-        });
+        if (invitado) {
+            await supabase.from('invitados').update({ asistencia: false, hospedaje: false }).eq('id', invitado.id);
+        }
     });
 
     // Botón de hospedaje (solo si asistencia es true)
@@ -83,10 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
             hospedajeButton.classList.remove('selected');
             responseMessage.textContent = "Has cancelado la solicitud de hospedaje.";
         }
-        await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre: guestName, asistencia: true, hospedaje })
-        });
+        if (invitado) {
+            await supabase.from('invitados').update({ hospedaje: true }).eq('id', invitado.id);
+        }
     });
 });

@@ -1,18 +1,24 @@
-const API_URL = '/api/invitados';
+const SUPABASE_URL = 'https://yvakismtvwvjxylkorye.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Generar link único y mostrarlo para compartir
     const form = document.getElementById('generate-link-form');
     const guestNameInput = document.getElementById('guestName');
     const generatedLinkDiv = document.getElementById('generatedLink');
-    const clearAllBtn = document.getElementById('clearAllBtn');
     const tbody = document.getElementById('adminTableBody');
 
     // Renderizar la tabla de invitados
     async function cargarInvitados() {
         tbody.innerHTML = '';
-        const res = await fetch(API_URL);
-        const invitados = await res.json();
+        const { data: invitados, error } = await supabase
+            .from('invitados')
+            .select('*')
+            .order('created_at', { ascending: true });
+        if (error) {
+            tbody.innerHTML = `<tr><td colspan="4" style="color:#f00;">Error cargando invitados</td></tr>`;
+            return;
+        }
         if (!invitados.length) {
             tbody.innerHTML = `<tr><td colspan="4" style="color:#aaa;">No hay invitaciones generadas.</td></tr>`;
             return;
@@ -27,13 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button class="admin-btn delete">Eliminar</button>
                 </td>
             `;
-            tr.querySelector('.delete').addEventListener('click', function() {
+            tr.querySelector('.delete').addEventListener('click', async function() {
                 if (confirm(`¿Seguro que deseas borrar a ${inv.nombre}?`)) {
-                    fetch(API_URL, {
-                        method: 'DELETE',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ nombre: inv.nombre })
-                    }).then(() => cargarInvitados());
+                    await supabase.from('invitados').delete().eq('id', inv.id);
+                    cargarInvitados();
                 }
             });
             tbody.appendChild(tr);
@@ -41,10 +44,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Generar link único
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
         const name = guestNameInput.value.trim();
         if (!name) return;
+        // Inserta el invitado si no existe
+        const { data: existing } = await supabase
+            .from('invitados')
+            .select('id')
+            .eq('nombre', name)
+            .maybeSingle();
+        if (!existing) {
+            await supabase.from('invitados').insert([{ nombre: name }]);
+            cargarInvitados();
+        }
         const code = encodeURIComponent(btoa(unescape(encodeURIComponent(name))));
         const url = `${window.location.origin}/index.html?guest=${code}`;
         generatedLinkDiv.innerHTML = `
@@ -57,17 +70,6 @@ document.addEventListener('DOMContentLoaded', function() {
             navigator.clipboard.writeText(url);
         };
     });
-
-    // Borrar todos (si tienes este botón)
-    if (clearAllBtn) {
-        clearAllBtn.addEventListener('click', async function() {
-            if (confirm("¿Seguro que quieres borrar TODAS las invitaciones y confirmaciones?")) {
-                await fetch(API_URL, { method: 'DELETE' });
-                generatedLinkDiv.innerHTML = "";
-                await cargarInvitados();
-            }
-        });
-    }
 
     // Cargar invitados al iniciar
     cargarInvitados();
