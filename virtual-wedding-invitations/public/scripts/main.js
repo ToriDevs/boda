@@ -8,8 +8,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     const guestParam = params.get('guest');
     let guestName = guestParam ? decodeURIComponent(escape(atob(guestParam))) : null;
 
-    // Elementos
+    // Mostrar saludo personalizado
     const dearGuest = document.getElementById('dearGuest');
+    if (guestName && dearGuest) {
+        dearGuest.textContent = `Querido/a "${guestName}"`;
+    }
+
+    // Elementos
     const confirmYesButton = document.getElementById('confirmYesButton');
     const confirmNoButton = document.getElementById('confirmNoButton');
     const hospedajeButton = document.getElementById('hospedajeButton');
@@ -29,12 +34,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Personaliza el saludo
     if (guestName) {
-        dearGuest.innerHTML = `Querido/a <i>${guestName}</i>:`;
         confirmYesButton.disabled = false;
         confirmNoButton.disabled = false;
         hospedajeButton.disabled = false;
     } else {
-        dearGuest.textContent = "Querido/a invitado/a:";
         confirmYesButton.disabled = true;
         confirmNoButton.disabled = true;
         hospedajeButton.disabled = true;
