@@ -79,6 +79,11 @@
 <body>
     <div class="admin-panel">
         <div class="admin-title">Panel de Administración</div>
+        <form id="generate-link-form" style="margin-bottom:2em; text-align:center;">
+            <input type="text" id="guestName" placeholder="Nombre del invitado" required style="padding:0.5em; border-radius:6px; border:1px solid var(--oro); width:60%;">
+            <button type="submit" class="admin-btn">Generar link único</button>
+        </form>
+        <div id="generatedLink" style="text-align:center; margin-bottom:2em;"></div>
         <table class="admin-table">
             <thead>
                 <tr>

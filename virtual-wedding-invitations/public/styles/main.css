@@ -339,13 +339,73 @@ body {
     opacity: 1;
 }
 
-@media (max-width: 700px) {
-    .invitation {
+@media (max-width: 600px) {
+    .invitation,
+    .admin-panel {
         max-width: 98vw;
-        padding: 2em 0.5em 1.8em 0.5em; /* Más margen arriba y abajo en móvil */
+        padding: 1.2em 0.5em 1.5em 0.5em;
+        border-radius: 12px;
+        box-sizing: border-box;
     }
     .decorative-border:before {
         top: 8px; left: 8px; right: 8px; bottom: 8px;
-        border-radius: 12px;
+        border-radius: 8px;
+    }
+    .logo-img {
+        width: 90vw;
+        max-width: 220px;
+        margin-bottom: 1.2em;
+    }
+    .main-title {
+        font-size: 1.15em;
+        margin-bottom: 1em;
+    }
+    .subtitle,
+    .special-phrase,
+    .con-carino .special-phrase {
+        font-size: 1em !important;
+    }
+    .details-list {
+        font-size: 0.98em;
+        max-width: 98vw;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+    .dear,
+    .personal-message {
+        font-size: 1em;
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+    }
+    .rsvp-section {
+        flex-direction: column;
+        gap: 1em;
+    }
+    .confirmation-button,
+    .stay-button,
+    .info-button {
+        width: 100%;
+        min-width: 0;
+        font-size: 1em;
+        padding: 12px 0;
+    }
+    .admin-table {
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+    }
+    .admin-table table {
+        min-width: 500px;
+    }
+    .admin-table th,
+    .admin-table td {
+        font-size: 0.95em;
+        padding: 0.5em 0.2em;
+    }
+    .admin-title {
+        font-size: 1.15em;
+    }
+    .info-section {
+        padding: 1.2em 0.5em 1em 0.5em !important;
     }
 }

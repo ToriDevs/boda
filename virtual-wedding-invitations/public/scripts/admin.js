@@ -1,9 +1,9 @@
 const API_URL = '/api/invitados';
 
 document.addEventListener('DOMContentLoaded', function() {
-    const guestNameInput = document.getElementById('guestNameInput');
-    const generateLinkBtn = document.getElementById('generateLinkBtn');
-    const generatedLink = document.getElementById('generatedLink');
+    const form = document.getElementById('generate-link-form');
+    const guestNameInput = document.getElementById('guestName');
+    const generatedLinkDiv = document.getElementById('generatedLink');
     const clearAllBtn = document.getElementById('clearAllBtn');
     const confirmedList = document.getElementById('confirmedList');
 
@@ -39,42 +39,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    async function handleGenerate() {
-        let name = guestNameInput.value.trim();
-        if (name) {
-            await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ nombre: name })
-            });
-            guestNameInput.value = "";
-            await renderTable();
-            const url = `${window.location.origin}/index.html?guest=${encodeURIComponent(name)}`;
-            generatedLink.innerHTML = `
-                <div style="margin-top:1em;">
-                    <strong>Link para <b>${name}</b>:</strong><br>
-                    <input type="text" value="${url}" readonly style="width:90%;padding:6px;border-radius:6px;border:1px solid #ccc;margin-top:6px;" onclick="this.select()" />
-                    <br>
-                    <a href="${url}" target="_blank" style="display:inline-block;margin-top:8px;color:#386641;">Abrir invitación</a>
-                </div>
-            `;
-        } else {
-            generatedLink.textContent = "Por favor, escribe el nombre del invitado.";
-        }
-    }
-
-    generateLinkBtn.addEventListener('click', handleGenerate);
-
-    guestNameInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            handleGenerate();
-        }
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const name = guestNameInput.value.trim();
+        if (!name) return;
+        // Codifica el nombre para URL (puedes usar un hash si prefieres)
+        const code = encodeURIComponent(btoa(unescape(encodeURIComponent(name))));
+        const url = `${window.location.origin}/index.html?guest=${code}`;
+        generatedLinkDiv.innerHTML = `
+            <div style="margin-top:1em;">
+                <strong>Link para <b>${name}</b>:</strong><br>
+                <input type="text" value="${url}" readonly style="width:90%;padding:6px;border-radius:6px;border:1px solid #ccc;margin-top:6px;" onclick="this.select()" />
+                <br>
+                <a href="${url}" target="_blank" style="display:inline-block;margin-top:8px;color:#386641;">Abrir invitación</a>
+            </div>
+        `;
+        await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre: name })
+        });
+        guestNameInput.value = "";
+        await renderTable();
     });
 
     clearAllBtn.addEventListener('click', async function() {
         if (confirm("¿Seguro que quieres borrar TODAS las invitaciones y confirmaciones?")) {
             await fetch(API_URL, { method: 'DELETE' });
-            generatedLink.innerHTML = "";
+            generatedLinkDiv.innerHTML = "";
             await renderTable();
         }
     });

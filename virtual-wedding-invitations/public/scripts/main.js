@@ -1,8 +1,18 @@
 const API_URL = '/api/invitados';
 
-document.addEventListener('DOMContentLoaded', async function () {
+document.addEventListener('DOMContentLoaded', function() {
+    // Obtener nombre del invitado desde el parámetro guest (codificado en base64)
     const urlParams = new URLSearchParams(window.location.search);
-    const guestName = urlParams.get('guest')?.trim();
+    let guestName = urlParams.get('guest');
+    if (guestName) {
+        try {
+            guestName = decodeURIComponent(escape(atob(guestName)));
+        } catch (e) {
+            guestName = null;
+        }
+    }
+
+    // Elementos
     const dearGuest = document.getElementById('dearGuest');
     const confirmYesButton = document.getElementById('confirmYesButton');
     const confirmNoButton = document.getElementById('confirmNoButton');
@@ -13,6 +23,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Personaliza el saludo
     if (guestName) {
         dearGuest.innerHTML = `Querido/a <i>${guestName}</i>:`;
+        confirmYesButton.disabled = false;
+        confirmNoButton.disabled = false;
+        hospedajeButton.disabled = false;
     } else {
         dearGuest.textContent = "Querido/a invitado/a:";
         confirmYesButton.disabled = true;
@@ -24,6 +37,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     let asistencia = null;
     let hospedaje = false;
 
+    // Inicialmente ocultar hospedaje
+    hospedajeContainer.style.display = "none";
+
     // Botón de confirmar asistencia SÍ
     confirmYesButton.addEventListener('click', async () => {
         asistencia = true;
@@ -31,13 +47,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         confirmYesButton.classList.add('selected');
         confirmNoButton.classList.remove('selected');
         hospedajeButton.classList.remove('selected');
+        responseMessage.textContent = "¡Gracias por confirmar tu asistencia!";
+        hospedajeContainer.style.display = "block";
         await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nombre: guestName, asistencia: true, hospedaje: false })
         });
-        responseMessage.textContent = "¡Gracias por confirmar tu asistencia!";
-        hospedajeContainer.style.display = "block";
     });
 
     // Botón de confirmar asistencia NO
@@ -47,13 +63,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         confirmNoButton.classList.add('selected');
         confirmYesButton.classList.remove('selected');
         hospedajeButton.classList.remove('selected');
+        responseMessage.textContent = "Sentimos que no puedas asistir.";
+        hospedajeContainer.style.display = "none";
         await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nombre: guestName, asistencia: false, hospedaje: false })
         });
-        responseMessage.textContent = "Sentimos que no puedas asistir.";
-        hospedajeContainer.style.display = "none";
     });
 
     // Botón de hospedaje (solo si asistencia es true)
@@ -73,7 +89,4 @@ document.addEventListener('DOMContentLoaded', async function () {
             body: JSON.stringify({ nombre: guestName, asistencia: true, hospedaje })
         });
     });
-
-    // Inicialmente ocultar hospedaje
-    hospedajeContainer.style.display = "none";
 });
