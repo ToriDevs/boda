@@ -1,333 +1,351 @@
+:root {
+    --marfil: #F8F5F0;
+    --oro: #A18D6C;
+    --olivo: #48634A;
+    --blanco: #FFFFFF;
+    --borde-externo: 3px solid var(--oro);
+    --borde-interno: 1px solid var(--oro);
+}
+
 body {
-    background: #f8f5ed;
-    font-family: 'Georgia', 'Times New Roman', serif;
-    color: #2d210c;
+    background: var(--marfil);
+    font-family: 'Lora', serif;
+    color: var(--olivo);
     margin: 0;
     padding: 0;
 }
 
 .invitation {
-    background: #fffdf7;
-    max-width: 500px;
-    margin: 40px auto 0 auto;
-    padding: 2.8em 2em 2.2em 2em;
-    border-radius: 28px;
+    background: var(--blanco);
+    max-width: 540px;
+    margin: 7vw auto 0 auto;      /* Más margen arriba */
+    padding: 4em 2.8em 3em 2.8em; /* Más padding arriba y abajo */
+    border-radius: 22px;
     box-shadow: 0 6px 32px rgba(163, 131, 58, 0.10);
-    border: 3px solid #e3c77a;
     text-align: center;
     position: relative;
+    font-family: 'Lora', serif;
 }
 
-.wedding-logo {
-    font-size: 2.7em;
-    font-family: 'Georgia', serif;
-    font-weight: bold;
-    margin-bottom: 0.5em;
-    color: #b89c4c;
-    letter-spacing: 2px;
-    margin-top: 0.2em;
+.decorative-border {
+    position: relative;
+    border-radius: 22px;
+    box-sizing: border-box;
+    border: var(--borde-externo);
 }
-.wedding-logo::before,
-.wedding-logo::after {
-    content: "🌿";
-    margin: 0 0.2em;
-    font-size: 1.1em;
-    color: #b89c4c;
+.decorative-border:before {
+    content: "";
+    position: absolute;
+    top: 18px; left: 18px; right: 18px; bottom: 18px;
+    border: var(--borde-interno);
+    border-radius: 18px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.logo-img {
+    width: 230px;
+    max-width: 98vw;
+    margin-bottom: 1.2em;
+    margin-top: 0.5em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .main-title {
-    font-family: 'Georgia', serif;
-    font-size: 2.2em;
-    color: #2d210c;
-    margin-bottom: 0.2em;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5em;
+    color: var(--olivo);
+    margin-bottom: 0.3em;
     margin-top: 0;
     letter-spacing: 1px;
-    font-weight: bold;
+    font-weight: 700;
+    line-height: 1.1;
 }
 
 .subtitle {
     font-size: 1.13em;
-    color: #a3833a;
+    color: var(--olivo);
     margin-bottom: 1.2em;
     margin-top: 0.5em;
+    font-style: italic;
 }
 
-.details {
+.details-list {
     font-size: 1.08em;
-    color: #2d210c;
+    color: var(--olivo);
     margin-bottom: 1.2em;
-    line-height: 1.6;
+    line-height: 1.7;
+    text-align: left;
+    max-width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    list-style: none;
+}
+
+.details-list li {
+    margin-bottom: 0.2em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.icon {
+    display: inline-block;
+    width: 1.3em;
+    height: 1.3em;
+    vertical-align: middle;
+    color: var(--oro);
+    font-size: 1.1em;
+}
+
+/* Iconos SVG en línea dorada */
+.icon-date::before {
+    content: '';
+    display: inline-block;
+    width: 1.3em; height: 1.3em;
+    background: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23A18D6C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>') no-repeat center/contain;
+}
+.icon-location::before {
+    content: '';
+    display: inline-block;
+    width: 1.3em; height: 1.3em;
+    background: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23A18D6C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-6-5.686-6-10a6 6 0 1 1 12 0c0 4.314-6 10-6 10z"/><circle cx="12" cy="11" r="2.5"/></svg>') no-repeat center/contain;
+}
+.icon-time::before {
+    content: '';
+    display: inline-block;
+    width: 1.3em; height: 1.3em;
+    background: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23A18D6C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>') no-repeat center/contain;
+}
+.icon-dress::before {
+    content: '';
+    display: inline-block;
+    width: 1.3em; height: 1.3em;
+    background: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23A18D6C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 7c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.38-.56 2.63-1.46 3.54C13.63 12.44 12 14 12 14s-1.63-1.56-2.54-2.46A4.978 4.978 0 0 1 8 7z"/></svg>') no-repeat center/contain;
+}
+.icon-bed::before {
+    content: '';
+    display: inline-block;
+    width: 1.3em; height: 1.3em;
+    background: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23A18D6C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M3 17v2M21 17v2"/></svg>') no-repeat center/contain;
 }
 
 .dear {
-    font-size: 1.18em;
-    color: #2d210c;
-    margin: 1.2em 0 0.7em 0;
+    font-size: 1.28em;    /* Aumentado para mayor énfasis */
+    color: var(--olivo);
+    margin: 1.2em 1.5em 0.7em 1.5em; /* Solo laterales más amplios */
     font-weight: bold;
+    text-align: left;
 }
 
-.question {
-    font-size: 1.22em;
-    color: #2d210c;
-    margin: 1.2em 0 1em 0;
-    font-family: 'Georgia', serif;
+.personal-message {
+    font-size: 1.08em;
+    color: var(--olivo);
+    margin-bottom: 1.3em;
+    margin-left: 1.5em;   /* Solo laterales más amplios */
+    margin-right: 1.5em;
+    font-style: italic;
+    text-align: left;
+}
+
+.special-phrase {
+    font-family: 'Great Vibes', 'Dancing Script', cursive;
+    color: var(--oro);
+    font-size: 1.45em;    /* Más grande para destacar */
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+    display: block;
+}
+
+.con-carino .special-phrase {
+    font-size: 1.25em;    /* También más grande en el pie */
+}
+
+.rsvp-section {
+    display: flex;
+    justify-content: center;
+    gap: 1.5em;
+    margin-bottom: 2em;
+    flex-wrap: wrap; /* Permite que los botones bajen si no caben */
 }
 
 .confirmation-button {
-    background: #4d6b4a;
-    color: #fff;
     border: none;
-    border-radius: 14px;
-    padding: 16px 0;
-    margin: 0 8px 0 0;
-    font-size: 1.13em;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    font-weight: 500;
+    border-radius: 8px;
+    padding: 13px 0;
+    font-size: 0.92em;      /* Texto e iconos más pequeños */
+    font-family: 'Lora', serif;
+    font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px rgba(163, 131, 58, 0.07);
-    display: inline-block;
-    width: 170px;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    box-shadow: 0 2px 10px rgba(163, 131, 58, 0.12);
+    width: 190px;           /* Botón ancho cómodo */
     letter-spacing: 0.5px;
+    margin-bottom: 0;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra el texto y el icono */
+    gap: 0.7em; /* Espacio entre icono y texto */
 }
 
-.confirmation-button:last-child {
-    margin-right: 0;
+.btn-principal {
+    background: var(--olivo);
+    color: var(--blanco);
+}
+.btn-principal:hover, .btn-principal.selected {
+    background: #5d7c5d;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 16px rgba(163, 131, 58, 0.18);
+}
+
+.btn-secundario {
+    background: var(--oro);
+    color: var(--blanco);
+}
+.btn-secundario:hover, .btn-secundario.selected {
+    background: #b8a47d;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 16px rgba(163, 131, 58, 0.18);
 }
 
 .confirmation-button[disabled] {
     background: #ccc !important;
     color: #fff !important;
     cursor: not-allowed;
+    opacity: 0.7;
 }
 
-.confirmation-button.selected {
-    box-shadow: 0 0 0 3px #b89c4c;
-    background: #35512d !important;
-    color: #fff !important;
-}
-
-.confirmation-button:not(.selected):hover {
-    background: #35512d;
-}
-
-.stay-button {
-    background: #fffdf7;
-    color: #2d210c;
-    border: 2px solid #b89c4c;
-    border-radius: 14px;
-    padding: 14px 0;
-    margin: 18px 0 0 0;
-    font-size: 1.13em;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s, border 0.2s;
-    display: block;
-    width: 100%;
-    max-width: 380px;
-    margin-left: auto;
-    margin-right: auto;
-    letter-spacing: 0.5px;
-}
-
-.stay-button.selected {
-    background: #b89c4c;
-    color: #fffdf7;
-    border: 2px solid #b89c4c;
-    box-shadow: 0 0 0 3px #b89c4c;
-}
-
-.stay-button:not(.selected):hover {
-    background: #b89c4c;
-    color: #fffdf7;
-    border: 2px solid #b89c4c;
+.confirmation-button .icon-check,
+.confirmation-button .icon-cross {
+    font-size: 0.92em;      /* Iconos pequeños */
+    color: #fff;
+    background: transparent; /* Sin fondo, solo el icono blanco */
+    border-radius: 50%;
+    padding: 0 0.10em;      /* Menos espacio lateral */
+    margin-right: 0.06em;   /* Más cerca del texto */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #hospedajeContainer {
     margin-top: 1em;
     margin-bottom: 0.5em;
+    display: none;
+}
+
+.hospedaje-label {
+    font-size: 1em;
+    color: var(--olivo);
+    margin-bottom: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    font-family: 'Lora', serif;
+    font-weight: 500;
+}
+
+.stay-button {
+    background: var(--olivo);
+    color: var(--blanco);
+    border: none;
+    border-radius: 6px;
+    padding: 13px 0;
+    font-size: 1.13em;
+    font-family: 'Lora', serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    width: 100%;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: 0.5px;
+    display: block;
+    box-shadow: 0 2px 8px rgba(163, 131, 58, 0.07);
+}
+.stay-button:hover, .stay-button.selected {
+    background: #5d7c5d;
 }
 
 #responseMessage {
     margin-top: 1.5em;
     font-weight: bold;
-    color: #4d6b4a;
+    color: var(--olivo);
     font-size: 1.13em;
     min-height: 1.5em;
 }
 
-.couple {
-    font-family: 'Georgia', serif;
-    font-size: 1.5em;
-    color: #b89c4c;
-    margin: 2em 0 0.5em 0;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
 .footer {
     font-size: 1.07em;
-    color: #2d210c;
-    margin-top: 1.5em;
+    color: var(--olivo);
+    margin-top: 2em;
     margin-bottom: 0.5em;
     font-style: italic;
     line-height: 1.5;
-}
-
-/* Panel de administración */
-.admin-container {
-    background: #fffdf7;
-    max-width: 700px;
-    margin: 40px auto 0 auto;
-    padding: 2.5em 2em 2em 2em;
-    border-radius: 24px;
-    box-shadow: 0 4px 24px rgba(163, 131, 58, 0.08);
-    border: 3px solid #e3c77a;
     text-align: center;
 }
 
-h1, h2, h3 {
-    color: #4d3c1c;
-    font-family: 'Georgia', serif;
-    font-weight: bold;
-    margin-bottom: 0.7em;
-}
-
-h1 {
-    font-size: 2.1em;
-    margin-top: 0;
-}
-
-h2 {
-    font-size: 1.3em;
-}
-
-.generator {
-    margin-bottom: 2em;
-    display: flex;
-    gap: 1em;
-    align-items: center;
-    justify-content: center;
-}
-
-#guestNameInput {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1.5px solid #e3c77a;
-    font-size: 1em;
-    width: 220px;
-    background: #fff;
-    color: #a3833a;
-    transition: border 0.2s;
-    font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-#guestNameInput:focus {
-    border: 1.5px solid #a3833a;
-    outline: none;
-}
-
-#generateLinkBtn {
-    background: #a3833a;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 22px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background 0.2s;
-    font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-#generateLinkBtn:hover {
-    background: #4d6b4a;
-}
-
-.generated-link {
-    margin-bottom: 1.5em;
-    font-size: 1em;
-}
-
-.admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1.5em;
-    background: #fffbe9;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.admin-table th, .admin-table td {
-    border: 1px solid #e3c77a;
-    padding: 12px 8px;
-    text-align: center;
-    font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-.admin-table th {
-    background: #fff6d6;
-    color: #a3833a;
-    font-weight: bold;
-}
-
-.admin-table tr:nth-child(even) {
-    background: #fffbe9;
-}
-
-.admin-table tr:nth-child(odd) {
-    background: #fff;
-}
-
-.delete-btn {
-    background: #a3833a;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 6px 12px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background 0.2s;
-}
-
-.delete-btn:hover {
-    background: #4d6b4a;
-}
-
-.clear-btn {
-    background: #e3c77a;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 28px;
+.con-carino .special-phrase {
     font-size: 1.1em;
-    cursor: pointer;
-    margin-top: 1em;
-    transition: background 0.2s;
-    font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-.clear-btn:hover {
-    background: #a3833a;
+.couple {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1em;
+    color: var(--oro);
+    font-weight: bold;
+    letter-spacing: 1px;
+    display: block;
+    margin-top: 0.2em;
+}
+
+.map-link {
+    color: var(--olivo);
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+.map-link:hover {
+    color: var(--oro);
+    text-decoration: underline;
+}
+
+.info-button {
+    display: block;
+    margin: 0.5em auto 2em auto;
+    background: none;
+    color: var(--olivo);
+    border: 1px solid var(--oro);
+    border-radius: 16px;
+    padding: 0.4em 1.2em;
+    font-size: 0.98em;
+    font-family: 'Lora', serif;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    opacity: 0.85;
+}
+.info-button:hover {
+    background: var(--marfil);
+    color: var(--oro);
+    border-color: var(--olivo);
+    opacity: 1;
 }
 
 @media (max-width: 700px) {
-    .admin-container, .invitation {
+    .invitation {
         max-width: 98vw;
-        padding: 1em 0.5em;
+        padding: 2em 0.5em 1.8em 0.5em; /* Más margen arriba y abajo en móvil */
     }
-    .admin-table th, .admin-table td {
-        padding: 7px 3px;
-        font-size: 0.95em;
-    }
-    .generator {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.5em;
-    }
-    .confirmation-button, .stay-button {
-        font-size: 1em;
-        padding: 14px 0;
-        max-width: 98vw;
+    .decorative-border:before {
+        top: 8px; left: 8px; right: 8px; bottom: 8px;
+        border-radius: 12px;
     }
 }

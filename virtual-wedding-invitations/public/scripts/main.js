@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Personaliza el saludo
     if (guestName) {
-        dearGuest.textContent = `Querido/a ${guestName}, ¡te esperamos con mucha ilusión!`;
+        dearGuest.innerHTML = `Querido/a <i>${guestName}</i>:`;
     } else {
-        dearGuest.textContent = "Querido/a invitado/a, ¡te esperamos con mucha ilusión!";
+        dearGuest.textContent = "Querido/a invitado/a:";
         confirmYesButton.disabled = true;
         confirmNoButton.disabled = true;
         hospedajeButton.disabled = true;
@@ -22,52 +22,56 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Estado local
     let asistencia = null;
-    let hospedaje = null;
+    let hospedaje = false;
 
     // Botón de confirmar asistencia SÍ
     confirmYesButton.addEventListener('click', async () => {
         asistencia = true;
-        hospedaje = null; // Se resetea hospedaje al elegir asistencia
+        hospedaje = false;
+        confirmYesButton.classList.add('selected');
+        confirmNoButton.classList.remove('selected');
+        hospedajeButton.classList.remove('selected');
         await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre: guestName, asistencia: true, hospedaje: null })
+            body: JSON.stringify({ nombre: guestName, asistencia: true, hospedaje: false })
         });
         responseMessage.textContent = "¡Gracias por confirmar tu asistencia!";
         hospedajeContainer.style.display = "block";
-        hospedajeButton.classList.remove('selected');
     });
 
     // Botón de confirmar asistencia NO
     confirmNoButton.addEventListener('click', async () => {
         asistencia = false;
-        hospedaje = null;
+        hospedaje = false;
+        confirmNoButton.classList.add('selected');
+        confirmYesButton.classList.remove('selected');
+        hospedajeButton.classList.remove('selected');
         await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre: guestName, asistencia: false, hospedaje: null })
+            body: JSON.stringify({ nombre: guestName, asistencia: false, hospedaje: false })
         });
-        responseMessage.textContent = "¡Sentimos que no puedas asistir.";
+        responseMessage.textContent = "Sentimos que no puedas asistir.";
         hospedajeContainer.style.display = "none";
-        hospedajeButton.classList.remove('selected');
     });
 
     // Botón de hospedaje (solo si asistencia es true)
     hospedajeButton.addEventListener('click', async () => {
         if (asistencia !== true) return;
         hospedaje = !hospedaje;
+        if (hospedaje) {
+            hospedajeButton.classList.add('selected');
+            responseMessage.textContent = "¡Te reservamos hospedaje!";
+        } else {
+            hospedajeButton.classList.remove('selected');
+            responseMessage.textContent = "Has cancelado la solicitud de hospedaje.";
+        }
         await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nombre: guestName, asistencia: true, hospedaje })
         });
-        if (hospedaje) {
-            responseMessage.textContent = "¡Te reservamos hospedaje!";
-            hospedajeButton.classList.add('selected');
-        } else {
-            responseMessage.textContent = "Has cancelado la solicitud de hospedaje.";
-            hospedajeButton.classList.remove('selected');
-        }
     });
 
     // Inicialmente ocultar hospedaje

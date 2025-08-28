@@ -3,34 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Invitación de Boda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-    <div class="invitation">
-        <div class="wedding-logo">GA</div>
-        <h1 class="main-title">Estás invitado<br>a nuestra boda</h1>
-        <div class="subtitle">Queremos tenerte ahí en nuestro día especial</div>
-        <div class="details">
-            <div>📅 <b>Fecha:</b> Septiembre 26–28, 2025</div>
-            <div><b>Localización:</b> Lugo, Lagar da Pedra</div>
-            <div><b>Hora:</b> 16:00 PM</div>
-            <div><b>Etiqueta:</b> Semi-Formal</div>
+    <div class="invitation decorative-border">
+        <img src="styles/img/GA.png" alt="Logo GA" class="logo-img">
+
+        <h1 class="main-title">Estás cordialmente invitado<br>a nuestra boda</h1>
+        <div class="subtitle">
+            <span class="special-phrase">Será un honor compartir contigo este capítulo tan especial de nuestras vidas.</span>
         </div>
-        <div class="dear" id="dearGuest"></div>
-        <div class="question">¿Vas a venir?</div>
-        <div style="margin-bottom:1em;">
-            <button id="confirmYesButton" class="confirmation-button">✅ Sí, asistiré</button>
-            <button id="confirmNoButton" class="confirmation-button" style="background:#b89c4c;">❌ No podré asistir</button>
+
+        <ul class="details-list">
+            <li><span class="icon icon-date"></span> <b>Fecha:</b> 26–28 septiembre de 2025</li>
+            <li>
+                <span class="icon icon-location"></span>
+                <b>Lugar:</b>
+                <a href="https://www.google.com/maps/dir//Lugar+da+Pedreira,+27843+Vilalba,+Lugo/@43.3136347,-7.5496423,685m/data=!3m1!1e3!4m9!4m8!1m0!1m5!1m1!1s0xd31ef54f16f9fa5:0xeb4d0f14f3c5d53d!2m2!1d-7.5496423!2d43.3136347!3e0?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D"
+                   target="_blank" rel="noopener" class="map-link">
+                    Lugar da Pedreira, Lugo
+                </a>
+            </li>
+            <li><span class="icon icon-time"></span> <b>Hora:</b> Llegada 16:00</li>
+            <li><span class="icon icon-dress"></span> <b>Etiqueta:</b> Semi-formal</li>
+        </ul>
+
+        <div class="dear" id="dearGuest">Querido/a <i>Nombre del invitado</i>:</div>
+        <div class="personal-message">
+            <span class="special-phrase">Te esperamos con ilusión para celebrar juntos, entre brindis, música y memorias que atesoraremos siempre.</span>
         </div>
+
+        <div class="rsvp-section">
+            <button class="confirmation-button btn-principal">
+                <span class="icon-check">✔</span> Sí, asistiré
+            </button>
+            <button class="confirmation-button btn-secundario">
+                <span class="icon-cross">✖</span> No podré asistir
+            </button>
+        </div>
+        <button class="info-button" type="button" onclick="window.location.href='info.html'">Más información</button>
+
         <div id="hospedajeContainer">
-            <button id="hospedajeButton" class="stay-button">🛏️ Solicitar hospedaje</button>
+            <div class="hospedaje-label">
+                <span class="icon icon-bed"></span>
+                Indica si requieres hospedaje.
+            </div>
+            <button id="hospedajeButton" class="stay-button btn-principal">Solicitar hospedaje</button>
         </div>
         <div id="responseMessage"></div>
-        <div class="couple">
-            GUILLERMO GARCÍA<br>Y ALEJANDRA ACUÑA
-        </div>
+
         <div class="footer">
-            Con cariño y mucha ilusión, te esperamos para compartir risas, abrazos y recuerdos que duren toda la vida.
+            <div class="con-carino"><span class="special-phrase">Con todo nuestro cariño,</span></div>
+            <span class="couple">GUILLERMO & ALEJANDRA</span>
         </div>
     </div>
     <script type="module" src="scripts/main.js"></script>
