@@ -24,15 +24,26 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         invitados.forEach(inv => {
+            const code = encodeURIComponent(btoa(unescape(encodeURIComponent(inv.nombre))));
+            const url = `${window.location.origin}/index.html?guest=${code}`;
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${inv.nombre}</td>
+                <td>
+                    <input type="text" value="${url}" readonly style="width:90%;font-size:0.95em;">
+                    <button class="admin-btn copy-link" title="Copiar link">🔗</button>
+                </td>
                 <td>${inv.asistencia === true ? 'Confirmado' : inv.asistencia === false ? 'No asistirá' : ''}</td>
                 <td>${inv.hospedaje === true ? 'Sí' : inv.hospedaje === false ? 'No' : ''}</td>
                 <td class="admin-actions">
                     <button class="admin-btn delete">Eliminar</button>
                 </td>
             `;
+            // Copiar link al portapapeles
+            tr.querySelector('.copy-link').addEventListener('click', function() {
+                navigator.clipboard.writeText(url);
+            });
+            // Botón eliminar funcional
             tr.querySelector('.delete').addEventListener('click', async function() {
                 if (confirm(`¿Seguro que deseas borrar a ${inv.nombre}?`)) {
                     await supabase.from('invitados').delete().eq('id', inv.id);
