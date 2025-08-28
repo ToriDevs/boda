@@ -30,22 +30,22 @@
             <li><span class="icon icon-dress"></span> <b>Etiqueta:</b> Semi-formal</li>
         </ul>
 
-        <div class="dear" id="dearGuest">Querido/a <i>Nombre del invitado</i>:</div>
+        <span id="dearGuest"></span>
         <div class="personal-message">
             <span class="special-phrase">Te esperamos con ilusión para celebrar juntos, entre brindis, música y memorias que atesoraremos siempre.</span>
         </div>
 
         <div class="rsvp-section">
-            <button class="confirmation-button btn-principal">
+            <button id="confirmYesButton" class="confirmation-button btn-principal">
                 <span class="icon-check">✔</span> Sí, asistiré
             </button>
-            <button class="confirmation-button btn-secundario">
+            <button id="confirmNoButton" class="confirmation-button btn-secundario">
                 <span class="icon-cross">✖</span> No podré asistir
             </button>
         </div>
         <button class="info-button" type="button" onclick="window.location.href='info.html'">Más información</button>
 
-        <div id="hospedajeContainer">
+        <div id="hospedajeContainer" style="display:none;">
             <div class="hospedaje-label">
                 <span class="icon icon-bed"></span>
                 Indica si requieres hospedaje.

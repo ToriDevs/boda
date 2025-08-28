@@ -1,5 +1,5 @@
 const SUPABASE_URL = 'https://yvakismtvwvjxylkorye.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9zZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 document.addEventListener('DOMContentLoaded', async function() {
@@ -8,13 +8,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     const guestParam = params.get('guest');
     let guestName = guestParam ? decodeURIComponent(escape(atob(guestParam))) : null;
 
-    // Buscar invitado en Supabase
-    let invitado = null;
-    if (guestName) {
-        const { data } = await supabase.from('invitados').select('*').eq('nombre', guestName).maybeSingle();
-        invitado = data;
-    }
-
     // Elementos
     const dearGuest = document.getElementById('dearGuest');
     const confirmYesButton = document.getElementById('confirmYesButton');
@@ -22,6 +15,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     const hospedajeButton = document.getElementById('hospedajeButton');
     const responseMessage = document.getElementById('responseMessage');
     const hospedajeContainer = document.getElementById('hospedajeContainer');
+
+    // Estado local
+    let asistencia = null;
+    let hospedaje = false;
+    let invitado = null;
+
+    // Buscar invitado en Supabase
+    if (guestName) {
+        const { data } = await supabase.from('invitados').select('*').eq('nombre', guestName).maybeSingle();
+        invitado = data;
+    }
 
     // Personaliza el saludo
     if (guestName) {
@@ -36,10 +40,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         hospedajeButton.disabled = true;
     }
 
-    // Estado local
-    let asistencia = null;
-    let hospedaje = false;
-
     // Inicialmente ocultar hospedaje
     hospedajeContainer.style.display = "none";
 
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         responseMessage.textContent = "¡Gracias por confirmar tu asistencia!";
         hospedajeContainer.style.display = "block";
         if (invitado) {
-            await supabase.from('invitados').update({ asistencia: true }).eq('id', invitado.id);
+            await supabase.from('invitados').update({ asistencia: true, hospedaje: false }).eq('id', invitado.id);
         }
     });
 
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             responseMessage.textContent = "Has cancelado la solicitud de hospedaje.";
         }
         if (invitado) {
-            await supabase.from('invitados').update({ hospedaje: true }).eq('id', invitado.id);
+            await supabase.from('invitados').update({ hospedaje }).eq('id', invitado.id);
         }
     });
 });
