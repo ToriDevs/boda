@@ -1,92 +1,143 @@
+// Supabase (anon key pública)
 const SUPABASE_URL = 'https://yvakismtvwvjxylkorye.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9zZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-document.addEventListener('DOMContentLoaded', async function() {
-    // Obtener nombre desde la URL
-    const params = new URLSearchParams(window.location.search);
-    const guestParam = params.get('guest');
-    let guestName = guestParam ? decodeURIComponent(escape(atob(guestParam))) : null;
+// Elementos
+const dearGuestEl = document.getElementById('dearGuest');
+const rsvpSection = document.getElementById('rsvpSection');
+const yesBtn = document.getElementById('confirmYesButton');
+const noBtn = document.getElementById('confirmNoButton');
+const hospedajeContainer = document.getElementById('hospedajeContainer');
+const hospedajeBtn = document.getElementById('hospedajeButton');
+const responseMessage = document.getElementById('responseMessage');
 
-    // Mostrar saludo personalizado
-    const dearGuest = document.getElementById('dearGuest');
-    if (guestName && dearGuest) {
-        dearGuest.textContent = `Querido/a "${guestName}"`;
-    }
+let guest = null;
+let busy = false;
 
-    // Elementos
-    const confirmYesButton = document.getElementById('confirmYesButton');
-    const confirmNoButton = document.getElementById('confirmNoButton');
-    const hospedajeButton = document.getElementById('hospedajeButton');
-    const responseMessage = document.getElementById('responseMessage');
-    const hospedajeContainer = document.getElementById('hospedajeContainer');
-
-    // Estado local
-    let asistencia = null;
-    let hospedaje = false;
-    let invitado = null;
-
-    // Buscar invitado en Supabase
-    if (guestName) {
-        const { data } = await supabase.from('invitados').select('*').eq('nombre', guestName).maybeSingle();
-        invitado = data;
-    }
-
-    // Habilitar/deshabilitar botones según invitado
-    if (guestName && invitado) {
-        confirmYesButton.disabled = false;
-        confirmNoButton.disabled = false;
-        hospedajeButton.disabled = false;
-    } else {
-        confirmYesButton.disabled = true;
-        confirmNoButton.disabled = true;
-        hospedajeButton.disabled = true;
-    }
-
-    // Inicialmente ocultar hospedaje
-    hospedajeContainer.style.display = "none";
-
-    // Botón de confirmar asistencia SÍ
-    confirmYesButton.addEventListener('click', async () => {
-        asistencia = true;
-        hospedaje = false;
-        confirmYesButton.classList.add('selected');
-        confirmNoButton.classList.remove('selected');
-        hospedajeButton.classList.remove('selected');
-        responseMessage.textContent = "¡Gracias por confirmar tu asistencia!";
-        hospedajeContainer.style.display = "block";
-        if (invitado) {
-            await supabase.from('invitados').update({ asistencia: true, hospedaje: false }).eq('id', invitado.id);
-        }
-    });
-
-    // Botón de confirmar asistencia NO
-    confirmNoButton.addEventListener('click', async () => {
-        asistencia = false;
-        hospedaje = false;
-        confirmNoButton.classList.add('selected');
-        confirmYesButton.classList.remove('selected');
-        hospedajeButton.classList.remove('selected');
-        responseMessage.textContent = "Sentimos que no puedas asistir.";
-        hospedajeContainer.style.display = "none";
-        if (invitado) {
-            await supabase.from('invitados').update({ asistencia: false, hospedaje: false }).eq('id', invitado.id);
-        }
-    });
-
-    // Botón de hospedaje (solo si asistencia es true)
-    hospedajeButton.addEventListener('click', async () => {
-        if (asistencia !== true) return;
-        hospedaje = !hospedaje;
-        if (hospedaje) {
-            hospedajeButton.classList.add('selected');
-            responseMessage.textContent = "¡Te reservamos hospedaje!";
-        } else {
-            hospedajeButton.classList.remove('selected');
-            responseMessage.textContent = "Has cancelado la solicitud de hospedaje.";
-        }
-        if (invitado) {
-            await supabase.from('invitados').update({ hospedaje }).eq('id', invitado.id);
-        }
-    });
+init().catch(e => {
+  console.error(e);
+  setMsg('Error inicializando.', 'error');
 });
+
+async function init() {
+  const slug = new URLSearchParams(location.search).get('guest');
+  if (!slug) {
+    dearGuestEl.textContent = 'Invitado no identificado.';
+    return;
+  }
+  dearGuestEl.textContent = 'Cargando invitado...';
+  const { data, error } = await sb
+    .from('invitados')
+    .select('id,nombre,slug,asistencia,hospedaje')
+    .eq('slug', slug)
+    .maybeSingle();
+
+  if (error) {
+    console.error(error);
+    dearGuestEl.textContent = 'Error consultando invitado.';
+    return;
+  }
+  if (!data) {
+    dearGuestEl.textContent = 'Invitado no encontrado.';
+    return;
+  }
+  guest = data;
+  dearGuestEl.textContent = `Querido/a ${guest.nombre}`;
+  rsvpSection.hidden = false;
+  reflect();
+  attach();
+  subscribeRealtime(slug);
+}
+
+function attach() {
+  yesBtn.addEventListener('click', () => updateAsistencia(true));
+  noBtn.addEventListener('click', () => updateAsistencia(false));
+  hospedajeBtn.addEventListener('click', toggleHospedaje);
+}
+
+function lockButtons(lock) {
+  [yesBtn, noBtn, hospedajeBtn].forEach(b => b && (b.disabled = lock));
+}
+
+function reflect() {
+  if (!guest) return;
+  yesBtn.classList.toggle('active', guest.asistencia === true);
+  noBtn.classList.toggle('active', guest.asistencia === false);
+
+  if (guest.asistencia === true) {
+    hospedajeContainer.style.display = 'block';
+    hospedajeBtn.dataset.state = guest.hospedaje ? 'on' : 'off';
+    hospedajeBtn.textContent = guest.hospedaje ? 'Cancelar hospedaje' : 'Solicitar hospedaje';
+  } else {
+    hospedajeContainer.style.display = 'none';
+  }
+}
+
+async function updateAsistencia(val) {
+  if (!guest || busy) return;
+  if (guest.asistencia === val) {
+    if (val === true) hospedajeContainer.style.display = 'block';
+    return;
+  }
+  busy = true;
+  lockButtons(true);
+  setMsg('Guardando...', 'info');
+  const { data, error } = await sb
+    .from('invitados')
+    .update({ asistencia: val, ...(val ? {} : { hospedaje: null }) })
+    .eq('id', guest.id)
+    .select()
+    .maybeSingle();
+  busy = false;
+  lockButtons(false);
+  if (error) {
+    console.error(error);
+    setMsg('Error guardando asistencia.', 'error');
+    return;
+  }
+  guest = data;
+  setMsg(val ? '¡Confirmado! Gracias.' : 'Gracias, sentimos que no puedas venir.', 'success');
+  reflect();
+}
+
+async function toggleHospedaje() {
+  if (!guest || busy) return;
+  if (guest.asistencia !== true) return;
+  busy = true;
+  lockButtons(true);
+  const newVal = !guest.hospedaje;
+  setMsg('Actualizando hospedaje...', 'info');
+  const { data, error } = await sb
+    .from('invitados')
+    .update({ hospedaje: newVal })
+    .eq('id', guest.id)
+    .select()
+    .maybeSingle();
+  busy = false;
+  lockButtons(false);
+  if (error) {
+    console.error(error);
+    setMsg('Error actualizando hospedaje.', 'error');
+    return;
+  }
+  guest = data;
+  setMsg(newVal ? 'Hospedaje solicitado.' : 'Hospedaje cancelado.', 'success');
+  reflect();
+}
+
+function setMsg(msg, type) {
+  responseMessage.textContent = msg;
+  responseMessage.className = 'response-message ' + type;
+}
+
+function subscribeRealtime(slug) {
+  sb.channel('invitado-' + slug)
+    .on('postgres_changes',
+      { event: 'UPDATE', schema: 'public', table: 'invitados', filter: 'id=eq.' + guest.id },
+      payload => {
+        guest = payload.new;
+        reflect();
+      })
+    .subscribe();
+}

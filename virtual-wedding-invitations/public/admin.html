@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Panel de Administración</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
-    <link rel="stylesheet" href="styles/main.css">
-    <style>
+  <meta charset="UTF-8">
+  <title>Admin Invitaciones</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="styles/main.css">
+  <style>
         body {
             background: var(--marfil);
         }
@@ -76,34 +76,64 @@
         }
     </style>
 </head>
-<body>
-    <div class="admin-panel">
-        <div class="admin-title">Panel de Administración</div>
-        <!-- En el lugar donde quieras el saludo personalizado -->
-        <h2 id="dearGuest"></h2>
-        <form id="generate-link-form" style="margin-bottom:2em; text-align:center;">
-            <input type="text" id="guestName" placeholder="Nombre del invitado" required style="padding:0.5em; border-radius:6px; border:1px solid var(--oro); width:60%;">
-            <button type="submit" class="admin-btn">Generar link único</button>
-        </form>
-        <div id="generatedLink" style="text-align:center; margin-bottom:2em;"></div>
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>Invitado</th>
-                    <th>Link personal</th>
-                    <th>Asistencia</th>
-                    <th>Hospedaje</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="adminTableBody">
-                <!-- Las filas se llenan dinámicamente -->
-            </tbody>
+<body class="admin-body">
+  <main class="admin-panel">
+    <h1>Panel de Invitados</h1>
+
+    <section class="create-guest">
+      <h2>Crear invitado</h2>
+      <form id="createGuestForm">
+        <label>
+          Nombre completo:
+          <input type="text" id="guestNameInput" placeholder="Ej: Juan Pérez" required>
+        </label>
+        <button type="submit" class="btn-principal">Generar link</button>
+      </form>
+      <div id="createGuestMessage" class="response-message"></div>
+    </section>
+
+    <section class="guest-list-section">
+      <h2>Invitados</h2>
+      <div class="list-actions">
+        <button id="refreshListBtn" class="btn-secundario">Actualizar</button>
+        <button id="exportCsvBtn" class="btn-secundario">Exportar CSV</button>
+      </div>
+      <div class="table-wrapper">
+        <table class="guest-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Link</th>
+              <th>Asistencia</th>
+              <th>Hospedaje</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="guestTableBody">
+            <tr><td colspan="5">Cargando...</td></tr>
+          </tbody>
         </table>
-        <div class="admin-footer">
-            &copy; 2025 Guillermo & Alejandra
-        </div>
-    </div>
-    <script src="scripts/admin.js"></script>
+      </div>
+      <div id="listMessage" class="response-message"></div>
+    </section>
+  </main>
+
+  <template id="guestRowTemplate">
+    <tr>
+      <td data-field="nombre"></td>
+      <td data-field="link" class="small-col">
+        <button data-action="copy" class="mini-btn">Copiar</button>
+      </td>
+      <td data-field="asistencia" class="status-cell"></td>
+      <td data-field="hospedaje" class="status-cell"></td>
+      <td data-field="acciones" class="small-col">
+        <button data-action="delete" class="mini-btn danger">Borrar</button>
+        <button data-action="reset" class="mini-btn">Reset</button>
+      </td>
+    </tr>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"></script>
+  <script type="module" src="scripts/admin.js"></script>
 </body>
 </html>
