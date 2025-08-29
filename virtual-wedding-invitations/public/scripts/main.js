@@ -2,6 +2,7 @@
 const SUPABASE_URL='https://yvakismtvwvjxylkorye.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9zZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
 const sb = supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const DEBUG=false;
 
 const dearGuestEl=document.getElementById('dearGuest');
 const rsvpSection=document.getElementById('rsvpSection');
@@ -12,22 +13,26 @@ const hospedajeBtn=document.getElementById('hospedajeButton');
 const responseMessage=document.getElementById('responseMessage');
 let guest=null,busy=false;
 
-init().catch(e=>{console.error(e);setMsg('Error inicializando.','error');});
+init().catch(e=>{log('init error',e);setMsg('Error inicializando.','error');});
+
+function log(...a){ if(DEBUG) console.log('[INV]',...a); }
+
+function safeText(t){return (t||'').replace(/[<>&"]/g,s=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[s]));}
 
 async function init(){
   const slug=new URLSearchParams(location.search).get('guest');
-  console.log('[slug]',slug);
-  if(!slug){dearGuestEl.textContent='Falta ?guest=slug en la URL.';return;}
-  dearGuestEl.textContent='Cargando invitado...';
+  log('slug',slug);
+  if(!slug){dearGuestEl.textContent='Falta ?guest=slug';return;}
+  dearGuestEl.textContent='Cargando...';
   const {data,error}=await sb.from('invitados')
     .select('id,nombre,slug,asistencia,hospedaje')
     .eq('slug',slug)
     .maybeSingle();
-  console.log('[select invitado]',data,error);
+  log('select',data,error);
   if(error){dearGuestEl.textContent='Error consultando.';setMsg(error.message,'error');return;}
   if(!data){dearGuestEl.textContent='Invitado no encontrado.';return;}
   guest=data;
-  dearGuestEl.textContent=`Querido/a ${guest.nombre}`;
+  dearGuestEl.textContent=`Querido/a ${safeText(guest.nombre)}`;
   rsvpSection.hidden=false;
   yesBtn.onclick=()=>updateAsistencia(true);
   noBtn.onclick=()=>updateAsistencia(false);
@@ -48,7 +53,7 @@ function reflect(){
 
 async function updateAsistencia(val){
   if(!guest||busy)return;
-  if(guest.asistencia===val){ if(val) hospedajeContainer.style.display='block'; return;}
+  if(guest.asistencia===val){ if(val) hospedajeContainer.style.display='block'; return; }
   busy=true; lock(true); setMsg('Guardando...','info');
   const {data,error}=await sb.from('invitados')
     .update({asistencia:val,...(val?{}:{hospedaje:null})})
@@ -56,7 +61,7 @@ async function updateAsistencia(val){
     .select()
     .maybeSingle();
   busy=false; lock(false);
-  if(error){console.error(error);setMsg('Error guardando.','error');return;}
+  if(error){log('update asistencia error',error);setMsg('Error guardando.','error');return;}
   guest=data; setMsg(val?'Confirmado.':'Actualizado.','success'); reflect();
 }
 
@@ -70,7 +75,7 @@ async function toggleHospedaje(){
     .select()
     .maybeSingle();
   busy=false; lock(false);
-  if(error){console.error(error);setMsg('Error hospedaje.','error');return;}
+  if(error){log('hospedaje error',error);setMsg('Error hospedaje.','error');return;}
   guest=data; setMsg(nuevo?'Hospedaje solicitado.':'Hospedaje cancelado.','success'); reflect();
 }
 

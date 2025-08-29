@@ -9,35 +9,35 @@
 <body class="admin-body">
   <main class="admin-panel admin-card invitation decorative-border">
     <header class="admin-header">
-      <div class="admin-logo"><img src="styles/img/GA.png" alt="GA" loading="lazy"></div>
+      <img src="styles/img/GA.png" alt="GA" class="admin-logo" loading="lazy">
       <h1 class="admin-title">Gestión de Invitados</h1>
-      <p class="admin-subtitle">Crear, compartir y seguir confirmaciones</p>
+      <p class="admin-subtitle">Crear y seguir confirmaciones</p>
     </header>
 
     <section class="create-guest card-section">
       <h2 class="section-title">Nuevo invitado</h2>
-      <form id="createGuestForm" class="guest-form">
+      <form id="createGuestForm" class="guest-form" autocomplete="off">
         <label class="field">
           <span class="field-label">Nombre completo</span>
-          <input type="text" id="guestNameInput" placeholder="Ej: Juan Pérez" autocomplete="off" required>
+            <input type="text" id="guestNameInput" placeholder="Ej: Juan Pérez" required>
         </label>
         <button type="submit" class="btn-principal wide-btn">➕ Generar link</button>
       </form>
-      <div id="createGuestMessage" class="response-message"></div>
+      <div id="createGuestMessage" class="response-message" aria-live="polite"></div>
     </section>
 
     <section class="guest-list-section card-section">
       <div class="section-head">
         <h2 class="section-title">Listado</h2>
         <div class="list-actions compact">
-          <button id="refreshListBtn" class="btn-secundario small-btn">↻ Actualizar</button>
+          <button id="refreshListBtn" class="btn-secundario small-btn">↻</button>
           <button id="exportCsvBtn" class="btn-secundario small-btn">⬇ CSV</button>
         </div>
       </div>
       <div class="legend">
         <span><span class="state yes mini"></span> Sí</span>
         <span><span class="state no mini"></span> No</span>
-        <span><span class="state null mini"></span> Pendiente</span>
+        <span><span class="state null mini"></span> Pend.</span>
       </div>
       <div class="table-wrapper elevated">
         <table class="guest-table pretty-table">
@@ -49,19 +49,19 @@
           </tbody>
         </table>
       </div>
-      <div id="listMessage" class="response-message"></div>
+      <div id="listMessage" class="response-message" aria-live="polite"></div>
     </section>
 
-    <footer class="admin-footer"><small>Panel · GA</small></footer>
+    <footer class="admin-footer"><small>Panel GA</small></footer>
   </main>
 
   <template id="guestRowTemplate">
     <tr>
       <td data-field="nombre"></td>
-      <td data-field="link" class="small-col"><button data-action="copy" class="mini-btn outline">Copiar</button></td>
+      <td data-field="link"><button data-action="copy" class="mini-btn outline">Copiar</button></td>
       <td data-field="asistencia" class="status-cell"></td>
       <td data-field="hospedaje" class="status-cell"></td>
-      <td data-field="acciones" class="small-col actions-cell">
+      <td data-field="acciones" class="actions-cell">
         <button data-action="toggle-asistencia" class="mini-btn ghost">Asist.</button>
         <button data-action="toggle-hospedaje" class="mini-btn ghost">Hosp.</button>
         <button data-action="reset" class="mini-btn outline">Reset</button>
@@ -70,7 +70,7 @@
     </tr>
   </template>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script src="scripts/admin.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
+  <script src="scripts/admin.js?v=umd2"></script>
 </body>
 </html>
