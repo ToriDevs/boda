@@ -14,48 +14,28 @@
   <main class="invitation decorative-border" id="mainContent">
     <img src="styles/img/GA.png" alt="Monograma GA" class="logo-img" loading="lazy">
     <h1 class="main-title">Estás cordialmente invitado<br>a nuestra boda</h1>
-
     <div class="subtitle">
       <span class="special-phrase">Será un honor compartir contigo este capítulo tan especial de nuestras vidas.</span>
     </div>
-
     <ul class="details-list">
-      <li><span class="icon icon-date"></span> <b>Fecha:</b> 26–28 septiembre de 2025</li>
-      <li><span class="icon icon-location"></span> <b>Lugar:</b> <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir//Lugar+da+Pedreira,+27843+Vilalba,+Lugo/">Lugar da Pedreira, Lugo</a></li>
-      <li><span class="icon icon-time"></span> <b>Hora:</b> Llegada 16:00</li>
-      <li><span class="icon icon-dress"></span> <b>Etiqueta:</b> Semi-formal</li>
+      <li><b>Fecha:</b> 26–28 septiembre de 2025</li>
+      <li><b>Lugar:</b> <a target="_blank" rel="noopener" href="https://www.google.com/maps/dir//Lugar+da+Pedreira,+27843+Vilalba,+Lugo/">Lugar da Pedreira, Lugo</a></li>
+      <li><b>Hora:</b> Llegada 16:00</li>
+      <li><b>Etiqueta:</b> Semi-formal</li>
     </ul>
-
-    <div class="dear-guest-box">
-      <h2 id="dearGuest" class="dear-guest-text">Cargando invitado...</h2>
-    </div>
-
-    <div class="personal-message">
-      <span class="special-phrase">Te esperamos con ilusión para celebrar juntos.</span>
-    </div>
-
+    <h2 id="dearGuest" class="dear-guest-text">Cargando invitado...</h2>
     <div class="rsvp-section" id="rsvpSection" hidden>
-      <button id="confirmYesButton" class="confirmation-button btn-principal"><span>✔</span> Sí, asistiré</button>
-      <button id="confirmNoButton" class="confirmation-button btn-secundario"><span>✖</span> No podré asistir</button>
+      <button id="confirmYesButton" class="confirmation-button btn-principal">✔ Sí, asistiré</button>
+      <button id="confirmNoButton" class="confirmation-button btn-secundario">✖ No podré asistir</button>
     </div>
-
     <div id="hospedajeContainer" style="display:none;">
-      <div class="hospedaje-label"><span class="icon icon-bed"></span> Indica si requieres hospedaje.</div>
+      <div class="hospedaje-label">Indica si requieres hospedaje.</div>
       <button id="hospedajeButton" class="stay-button btn-principal" data-state="off">Solicitar hospedaje</button>
     </div>
-
-    <div class="info-actions">
-      <button class="info-button" type="button" onclick="window.location.href='info.html'">Más información</button>
-    </div>
-
     <div id="responseMessage" class="response-message" role="status" aria-live="polite"></div>
-
-    <div class="footer">
-      <div class="con-carino"><span class="special-phrase">Con todo nuestro cariño,</span></div>
-      <span class="couple">GUILLERMO & ALEJANDRA</span>
-    </div>
+    <div class="footer"><span class="couple">GUILLERMO & ALEJANDRA</span></div>
   </main>
-
+  <!-- IMPORTANTE: primero supabase, luego main.js -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="scripts/main.js"></script>
 </body>
