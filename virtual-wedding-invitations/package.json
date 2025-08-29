@@ -1,9 +1,10 @@
 {
   "name": "virtual-wedding-invitations",
   "private": true,
+  "version": "1.0.0",
   "scripts": {
     "dev": "npx serve public -l 5173",
-    "start": "npx serve public -l 4173"
+    "start": "npx serve public -l 5173"
   },
   "devDependencies": {
     "serve": "^14.2.1"

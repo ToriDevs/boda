@@ -2,6 +2,7 @@
 const SUPABASE_URL='https://yvakismtvwvjxylkorye.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9zZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
 const sb = supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+
 const dearGuestEl=document.getElementById('dearGuest');
 const rsvpSection=document.getElementById('rsvpSection');
 const yesBtn=document.getElementById('confirmYesButton');
@@ -13,14 +14,14 @@ let guest=null,busy=false;
 
 init().catch(()=>setMsg('Error inicializando.','error'));
 
-function safeText(t){return (t||'').replace(/[<>&"]/g,s=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[s]));}
+function safeText(t){return (t||'').replace(/[<>&"]/g,s=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[s]));}
 
 async function init(){
   const slug=new URLSearchParams(location.search).get('guest');
   if(!slug){dearGuestEl.textContent='Falta ?guest=slug';return;}
   dearGuestEl.textContent='Cargando...';
   const {data,error}=await sb.from('invitados').select('id,nombre,slug,asistencia,hospedaje').eq('slug',slug).maybeSingle();
-  if(error){dearGuestEl.textContent='Error consultando.';setMsg(error.message,'error');return;}
+  if(error){dearGuestEl.textContent='Error.';setMsg(error.message,'error');return;}
   if(!data){dearGuestEl.textContent='Invitado no encontrado.';return;}
   guest=data;
   dearGuestEl.textContent=`Querido/a ${safeText(guest.nombre)}`;
@@ -52,12 +53,11 @@ async function updateAsistencia(val){
 
 async function toggleHospedaje(){
   if(!guest||busy||guest.asistencia!==true)return;
-  busy=true; lock(true);
-  const nuevo=!guest.hospedaje; setMsg('Actualizando hospedaje...','info');
-  const {data,error}=await sb.from('invitados').update({hospedaje:nuevo}).eq('id',guest.id).select().maybeSingle();
+  busy=true; lock(true); setMsg('Actualizando...','info');
+  const {data,error}=await sb.from('invitados').update({hospedaje:!guest.hospedaje}).eq('id',guest.id).select().maybeSingle();
   busy=false; lock(false);
   if(error){setMsg('Error hospedaje.','error');return;}
-  guest=data; setMsg(nuevo?'Hospedaje solicitado.':'Hospedaje cancelado.','success'); reflect();
+  guest=data; setMsg(guest.hospedaje?'Hospedaje solicitado.':'Hospedaje cancelado.','success'); reflect();
 }
 
 function lock(s){[yesBtn,noBtn,hospedajeBtn].forEach(b=>b&&(b.disabled=s));}
