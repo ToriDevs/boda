@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         invitado = data;
     }
 
-    // Personaliza el saludo
-    if (guestName) {
+    // Habilitar/deshabilitar botones según invitado
+    if (guestName && invitado) {
         confirmYesButton.disabled = false;
         confirmNoButton.disabled = false;
         hospedajeButton.disabled = false;

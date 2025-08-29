@@ -1,5 +1,5 @@
 const SUPABASE_URL = 'https://yvakismtvwvjxylkorye.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9zZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -16,11 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
             .select('*')
             .order('created_at', { ascending: true });
         if (error) {
-            tbody.innerHTML = `<tr><td colspan="4" style="color:#f00;">Error cargando invitados</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="5" style="color:#f00;">Error cargando invitados</td></tr>`;
             return;
         }
         if (!invitados.length) {
-            tbody.innerHTML = `<tr><td colspan="4" style="color:#aaa;">No hay invitaciones generadas.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="5" style="color:#aaa;">No hay invitaciones generadas.</td></tr>`;
             return;
         }
         invitados.forEach(inv => {
@@ -39,11 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button class="admin-btn delete">Eliminar</button>
                 </td>
             `;
-            // Copiar link al portapapeles
             tr.querySelector('.copy-link').addEventListener('click', function() {
                 navigator.clipboard.writeText(url);
             });
-            // Botón eliminar funcional
             tr.querySelector('.delete').addEventListener('click', async function() {
                 if (confirm(`¿Seguro que deseas borrar a ${inv.nombre}?`)) {
                     await supabase.from('invitados').delete().eq('id', inv.id);
