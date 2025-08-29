@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body class="admin-body">
-  <main class="admin-panel admin-card invitation decorative-border">
+  <main class="admin-panel invitation" style="max-width:1100px;">
     <header class="admin-header">
       <img src="styles/img/GA.png" alt="GA" class="admin-logo" loading="lazy">
       <h1 class="admin-title">Gestión de Invitados</h1>
@@ -19,19 +19,19 @@
       <form id="createGuestForm" class="guest-form" autocomplete="off">
         <label class="field">
           <span class="field-label">Nombre completo</span>
-            <input type="text" id="guestNameInput" placeholder="Ej: Juan Pérez" required>
+          <input type="text" id="guestNameInput" placeholder="Ej: Juan Pérez" required>
         </label>
-        <button type="submit" class="btn-principal wide-btn">➕ Generar link</button>
+        <button type="submit" class="btn-principal">➕ Generar link</button>
       </form>
       <div id="createGuestMessage" class="response-message" aria-live="polite"></div>
     </section>
 
     <section class="guest-list-section card-section">
       <div class="section-head">
-        <h2 class="section-title">Listado</h2>
-        <div class="list-actions compact">
-          <button id="refreshListBtn" class="btn-secundario small-btn">↻</button>
-          <button id="exportCsvBtn" class="btn-secundario small-btn">⬇ CSV</button>
+        <h2 class="section-title" style="margin:0">Listado</h2>
+        <div class="list-actions">
+          <button id="refreshListBtn" class="btn-secundario mini-btn" style="font-size:.65rem">↻</button>
+          <button id="exportCsvBtn" class="btn-secundario mini-btn" style="font-size:.65rem">CSV</button>
         </div>
       </div>
       <div class="legend">
@@ -39,7 +39,7 @@
         <span><span class="state no mini"></span> No</span>
         <span><span class="state null mini"></span> Pend.</span>
       </div>
-      <div class="table-wrapper elevated">
+      <div class="table-wrapper">
         <table class="guest-table pretty-table">
           <thead>
             <tr><th>Nombre</th><th>Link</th><th>Asistencia</th><th>Hospedaje</th><th>Acciones</th></tr>
@@ -71,6 +71,6 @@
   </template>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
-  <script src="scripts/admin.js?v=umd2"></script>
+  <script src="scripts/admin.js?v=2"></script>
 </body>
 </html>

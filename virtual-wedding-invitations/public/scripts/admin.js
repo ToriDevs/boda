@@ -1,8 +1,6 @@
 const SUPABASE_URL='https://yvakismtvwvjxylkorye.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9zZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
 const client = supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-const DEBUG=false;
-function log(...a){ if(DEBUG) console.log('[ADMIN]',...a); }
 
 const form=document.getElementById('createGuestForm');
 const nameInput=document.getElementById('guestNameInput');
@@ -13,6 +11,12 @@ const rowTpl=document.getElementById('guestRowTemplate');
 const refreshBtn=document.getElementById('refreshListBtn');
 const exportBtn=document.getElementById('exportCsvBtn');
 let creating=false;
+
+// Polling (0 para desactivar)
+const POLLING_INTERVAL_MS=15000;
+if(POLLING_INTERVAL_MS>0){
+  setInterval(()=>loadGuests(),POLLING_INTERVAL_MS);
+}
 
 form.addEventListener('submit',onCreateGuest);
 refreshBtn.addEventListener('click',loadGuests);
@@ -35,7 +39,7 @@ async function onCreateGuest(e){
    setCreateMsg('Invitado creado.','success');
    nameInput.value='';
    loadGuests();
- }catch(err){log('create error',err);setCreateMsg('Error creando invitado.','error');}
+ }catch(err){setCreateMsg('Error creando invitado.','error');}
  finally{creating=false; form.querySelector('button').disabled=false;}
 }
 
@@ -61,7 +65,7 @@ async function loadGuests(){
  const {data,error}=await client.from('invitados')
    .select('id,nombre,slug,asistencia,hospedaje')
    .order('nombre');
- if(error){log('load error',error);setListMsg('Error cargando.','error');return;}
+ if(error){setListMsg('Error cargando.','error');return;}
  render(data||[]); setListMsg(`Total: ${(data||[]).length}`,'success');
 }
 
@@ -76,7 +80,6 @@ function render(list){
     '<br><button data-action="toggle-asistencia" class="mini-btn">'+(g.asistencia===true?'Marcar No':'Marcar Sí')+'</button>';
   tr.querySelector('[data-field=hospedaje]').innerHTML=stateTag(g.hospedaje)+
     '<br><button data-action="toggle-hospedaje" class="mini-btn" '+(g.asistencia===true?'':'disabled style="opacity:.4;cursor:not-allowed;"')+'>'+(g.hospedaje===true?'Quitar':'Poner')+'</button>';
-  // Link cell
   tr.querySelector('[data-field=link]').setAttribute('title',buildLink(g.slug));
   tbody.appendChild(tr);
  }
@@ -100,9 +103,7 @@ async function toggleAsistencia(id){
  const {data,error}=await client.from('invitados').select('asistencia').eq('id',id).maybeSingle();
  if(error)return;
  const newVal=data.asistencia===true?false:true;
- await client.from('invitados')
-   .update({asistencia:newVal,...(newVal?{}:{hospedaje:null})})
-   .eq('id',id);
+ await client.from('invitados').update({asistencia:newVal,...(newVal?{}:{hospedaje:null})}).eq('id',id);
  loadGuests();
 }
 
@@ -114,10 +115,8 @@ async function toggleHospedaje(id){
 }
 
 async function copyLink(slug,tr){
- try{
-  await navigator.clipboard.writeText(buildLink(slug));
-  flash(tr,'link');
- }catch{alert('No se pudo copiar');}
+ try{await navigator.clipboard.writeText(buildLink(slug)); flash(tr,'link');}
+ catch{alert('No se pudo copiar');}
 }
 
 function exportCsv(){
@@ -133,9 +132,8 @@ function exportCsv(){
   ]);
  });
  const csv=rows.map(r=>r.map(f=>`"${String(f).replace(/"/g,'""')}"`).join(',')).join('\r\n');
- const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
- const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
- a.download='invitados.csv'; a.click(); URL.revokeObjectURL(a.href);
+ const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); const a=document.createElement('a');
+ a.href=URL.createObjectURL(blob); a.download='invitados.csv'; a.click(); URL.revokeObjectURL(a.href);
 }
 
 function flash(tr,field){
@@ -144,9 +142,5 @@ function flash(tr,field){
 }
 function setCreateMsg(m,t){createMsg.textContent=m; createMsg.className='response-message '+t;}
 function setListMsg(m,t){listMsg.textContent=m; listMsg.className='response-message '+t;}
-
-client.channel('invitados-changes')
-  .on('postgres_changes',{event:'*',schema:'public',table:'invitados'},()=>loadGuests())
-  .subscribe();
 
 loadGuests();
