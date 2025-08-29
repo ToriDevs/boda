@@ -1,7 +1,8 @@
-// Supabase (anon key pública)
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
 const SUPABASE_URL = 'https://yvakismtvwvjxylkorye.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Elementos
 const dearGuestEl = document.getElementById('dearGuest');
@@ -135,9 +136,6 @@ function subscribeRealtime(slug) {
   sb.channel('invitado-' + slug)
     .on('postgres_changes',
       { event: 'UPDATE', schema: 'public', table: 'invitados', filter: 'id=eq.' + guest.id },
-      payload => {
-        guest = payload.new;
-        reflect();
-      })
+      payload => { guest = payload.new; reflect(); })
     .subscribe();
 }

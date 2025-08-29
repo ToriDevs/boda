@@ -1,8 +1,9 @@
-// Supabase (anon key pública)
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
 const SUPABASE_URL = 'https://yvakismtvwvjxylkorye.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWtpc210dnd2anh5bGtvcnllIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYzOTA5NTEsImV4cCI6MjA3MTk2Njk1MX0.zN-oDIZLBEzYQUKaYwNW0yX68_WvNvl-bIPW5sldaZI';
 
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const form = document.getElementById('createGuestForm');
 const nameInput = document.getElementById('guestNameInput');
@@ -25,13 +26,10 @@ tbody.addEventListener('click', async (e) => {
   const tr = btn.closest('tr');
   const id = tr?.dataset.id;
   if (!id) return;
-
   const slug = tr.dataset.slug;
 
   switch (btn.dataset.action) {
-    case 'copy':
-      await copyLink(slug, tr);
-      break;
+    case 'copy': await copyLink(slug, tr); break;
     case 'delete':
       if (confirm('¿Borrar invitado?')) {
         await supabaseClient.from('invitados').delete().eq('id', id);
@@ -44,12 +42,8 @@ tbody.addEventListener('click', async (e) => {
         .eq('id', id);
       await loadGuests();
       break;
-    case 'toggle-asistencia':
-      await toggleAsistencia(tr, id);
-      break;
-    case 'toggle-hospedaje':
-      await toggleHospedaje(tr, id);
-      break;
+    case 'toggle-asistencia': await toggleAsistencia(tr, id); break;
+    case 'toggle-hospedaje': await toggleHospedaje(tr, id); break;
   }
 });
 
@@ -57,10 +51,7 @@ async function onCreateGuest(e) {
   e.preventDefault();
   if (creating) return;
   let rawName = nameInput.value.trim().replace(/\s+/g, ' ');
-  if (!rawName) {
-    setCreateMsg('Nombre requerido', 'error');
-    return;
-  }
+  if (!rawName) return setCreateMsg('Nombre requerido', 'error');
   if (rawName.length > 80) rawName = rawName.slice(0, 80);
 
   creating = true;
@@ -69,14 +60,10 @@ async function onCreateGuest(e) {
 
   try {
     const slug = await generateUniqueSlug(rawName);
-    const { data, error } = await supabaseClient
+    const { error } = await supabaseClient
       .from('invitados')
-      .insert({ nombre: rawName, slug })
-      .select()
-      .maybeSingle();
-
+      .insert({ nombre: rawName, slug });
     if (error) throw error;
-
     setCreateMsg('Invitado creado.', 'success');
     nameInput.value = '';
     await loadGuests();
@@ -115,8 +102,7 @@ function slugify(str) {
 
 function getBasePath() {
   const { origin, pathname } = window.location;
-  const dir = pathname.replace(/[^/]+$/, '');
-  return origin + dir;
+  return origin + pathname.replace(/[^/]+$/, '');
 }
 
 function buildGuestLink(slug) {
@@ -139,11 +125,9 @@ async function loadGuests() {
     .from('invitados')
     .select('id,nombre,slug,asistencia,hospedaje')
     .order('nombre', { ascending: true });
-
   if (error) {
     console.error(error);
-    setListMsg('Error cargando.', 'error');
-    return;
+    return setListMsg('Error cargando.', 'error');
   }
   renderGuestTable(data);
   setListMsg(`Total: ${data.length}`, 'success');
@@ -184,26 +168,24 @@ function formatState(v) {
 }
 
 async function toggleAsistencia(tr, id) {
-  const asistenciaCell = tr.querySelector('[data-field="asistencia"]');
-  asistenciaCell.classList.add('flash');
-  const currentLabel = asistenciaCell.querySelector('.state')?.textContent;
-  const newValue = currentLabel === 'Sí' ? false : true;
+  const cell = tr.querySelector('[data-field="asistencia"]');
+  cell.classList.add('flash');
+  const current = cell.querySelector('.state')?.textContent === 'Sí';
   const { error } = await supabaseClient
     .from('invitados')
-    .update({ asistencia: newValue, ...(newValue ? {} : { hospedaje: null }) })
+    .update({ asistencia: !current, ...(!current ? {} : { }) , ...(current ? { hospedaje: null } : {}) })
     .eq('id', id);
   if (error) console.error(error);
   await loadGuests();
 }
 
 async function toggleHospedaje(tr, id) {
-  const hospedajeCell = tr.querySelector('[data-field="hospedaje"]');
-  hospedajeCell.classList.add('flash');
-  const currentLabel = hospedajeCell.querySelector('.state')?.textContent;
-  const newValue = currentLabel === 'Sí' ? false : true;
+  const cell = tr.querySelector('[data-field="hospedaje"]');
+  cell.classList.add('flash');
+  const current = cell.querySelector('.state')?.textContent === 'Sí';
   const { error } = await supabaseClient
     .from('invitados')
-    .update({ hospedaje: newValue })
+    .update({ hospedaje: !current })
     .eq('id', id);
   if (error) console.error(error);
   await loadGuests();
@@ -213,16 +195,16 @@ function exportCsv() {
   const rows = [['Nombre', 'Slug', 'Link', 'Asistencia', 'Hospedaje']];
   [...tbody.querySelectorAll('tr')].forEach(tr => {
     if (!tr.dataset.slug) return;
-    const nombre = tr.querySelector('[data-field="nombre"]')?.textContent || '';
-    const slug = tr.dataset.slug || '';
-    const link = buildGuestLink(slug);
-    const asis = tr.querySelector('[data-field="asistencia"] .state')?.textContent || '';
-    const hosp = tr.querySelector('[data-field="hospedaje"] .state')?.textContent || '';
-    rows.push([nombre, slug, link, asis, hosp]);
+    rows.push([
+      tr.querySelector('[data-field="nombre"]')?.textContent || '',
+      tr.dataset.slug,
+      buildGuestLink(tr.dataset.slug),
+      tr.querySelector('[data-field="asistencia"] .state')?.textContent || '',
+      tr.querySelector('[data-field="hospedaje"] .state')?.textContent || ''
+    ]);
   });
-  const csv = rows.map(r => r.map(field =>
-    `"${String(field).replace(/"/g, '""')}"`).join(',')).join('\r\n');
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const csv = rows.map(r => r.map(f => `"${String(f).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+  const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'invitados.csv';
@@ -234,23 +216,16 @@ function flashCell(tr, field) {
   const el = tr.querySelector(`[data-field="${field}"]`);
   if (!el) return;
   el.classList.add('flash');
-  setTimeout(() => el.classList.remove('flash'), 700);
+  setTimeout(()=>el.classList.remove('flash'),700);
 }
 
-function setCreateMsg(msg, type) {
-  createMsg.textContent = msg;
-  createMsg.className = 'response-message ' + type;
-}
-function setListMsg(msg, type) {
-  listMsg.textContent = msg;
-  listMsg.className = 'response-message ' + type;
-}
+function setCreateMsg(msg,type){ createMsg.textContent=msg; createMsg.className='response-message '+type; }
+function setListMsg(msg,type){ listMsg.textContent=msg; listMsg.className='response-message '+type; }
 
+// Realtime
 supabaseClient
   .channel('invitados-changes')
-  .on(
-    'postgres_changes',
-    { event: '*', schema: 'public', table: 'invitados' },
-    () => loadGuests()
-  )
+  .on('postgres_changes', { event:'*', schema:'public', table:'invitados' }, () => loadGuests())
   .subscribe();
+
+loadGuests();
