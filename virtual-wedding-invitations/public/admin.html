@@ -2,104 +2,50 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Invitaciones</title>
+  <title>Panel de Invitados</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="styles/main.css">
-  <style>
-        body {
-            background: var(--marfil);
-        }
-        .admin-panel {
-            max-width: 700px;
-            margin: 5vw auto 0 auto;
-            background: var(--blanco);
-            border-radius: 18px;
-            box-shadow: 0 4px 24px rgba(163, 131, 58, 0.10);
-            padding: 2.5em 2em 2em 2em;
-        }
-        .admin-title {
-            font-family: 'Playfair Display', serif;
-            color: var(--olivo);
-            font-size: 1.6em;
-            margin-bottom: 1.2em;
-            text-align: center;
-        }
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 2em;
-        }
-        .admin-table th, .admin-table td {
-            border: 1px solid var(--oro);
-            padding: 0.7em 0.5em;
-            text-align: center;
-            font-size: 1em;
-        }
-        .admin-table th {
-            background: var(--marfil);
-            color: var(--olivo);
-            font-weight: 700;
-        }
-        .admin-table tr:nth-child(even) {
-            background: #faf8f4;
-        }
-        .admin-actions {
-            display: flex;
-            gap: 0.5em;
-            justify-content: center;
-        }
-        .admin-btn {
-            background: var(--olivo);
-            color: var(--blanco);
-            border: none;
-            border-radius: 6px;
-            padding: 0.4em 1em;
-            font-size: 0.98em;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .admin-btn.delete {
-            background: var(--oro);
-        }
-        .admin-btn:hover {
-            background: #5d7c5d;
-        }
-        .admin-btn.delete:hover {
-            background: #b8a47d;
-        }
-        .admin-footer {
-            text-align: center;
-            color: var(--olivo);
-            font-size: 1em;
-            margin-top: 2em;
-            opacity: 0.7;
-        }
-    </style>
 </head>
 <body class="admin-body">
-  <main class="admin-panel">
-    <h1>Panel de Invitados</h1>
+  <main class="admin-panel admin-card invitation decorative-border">
+    <header class="admin-header">
+      <div class="admin-logo">
+        <img src="styles/img/GA.png" alt="GA" loading="lazy">
+      </div>
+      <h1 class="admin-title">Gestión de Invitados</h1>
+      <p class="admin-subtitle">Crear, compartir y seguir confirmaciones</p>
+    </header>
 
-    <section class="create-guest">
-      <h2>Crear invitado</h2>
-      <form id="createGuestForm">
-        <label>
-          Nombre completo:
-          <input type="text" id="guestNameInput" placeholder="Ej: Juan Pérez" required>
+    <section class="create-guest card-section">
+      <h2 class="section-title">Nuevo invitado</h2>
+      <form id="createGuestForm" class="guest-form">
+        <label class="field">
+          <span class="field-label">Nombre completo</span>
+          <input type="text" id="guestNameInput" placeholder="Ej: Juan Pérez" autocomplete="off" required>
         </label>
-        <button type="submit" class="btn-principal">Generar link</button>
+        <button type="submit" class="btn-principal wide-btn">
+          ➕ Generar link
+        </button>
       </form>
       <div id="createGuestMessage" class="response-message"></div>
     </section>
 
-    <section class="guest-list-section">
-      <h2>Invitados</h2>
-      <div class="list-actions">
-        <button id="refreshListBtn" class="btn-secundario">Actualizar</button>
-        <button id="exportCsvBtn" class="btn-secundario">Exportar CSV</button>
+    <section class="guest-list-section card-section">
+      <div class="section-head">
+        <h2 class="section-title">Listado</h2>
+        <div class="list-actions compact">
+          <button id="refreshListBtn" class="btn-secundario small-btn">↻ Actualizar</button>
+          <button id="exportCsvBtn" class="btn-secundario small-btn">⬇ CSV</button>
+        </div>
       </div>
-      <div class="table-wrapper">
-        <table class="guest-table">
+      <div class="legend">
+        <span><span class="state yes mini"></span> Sí</span>
+        <span><span class="state no mini"></span> No</span>
+        <span><span class="state null mini"></span> Pendiente</span>
+      </div>
+
+      <div class="table-wrapper elevated">
+        <table class="guest-table pretty-table">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -116,19 +62,25 @@
       </div>
       <div id="listMessage" class="response-message"></div>
     </section>
+
+    <footer class="admin-footer">
+      <small>Panel · GA</small>
+    </footer>
   </main>
 
   <template id="guestRowTemplate">
     <tr>
       <td data-field="nombre"></td>
       <td data-field="link" class="small-col">
-        <button data-action="copy" class="mini-btn">Copiar</button>
+        <button data-action="copy" class="mini-btn outline">Copiar</button>
       </td>
       <td data-field="asistencia" class="status-cell"></td>
       <td data-field="hospedaje" class="status-cell"></td>
-      <td data-field="acciones" class="small-col">
+      <td data-field="acciones" class="small-col actions-cell">
+        <button data-action="toggle-asistencia" class="mini-btn ghost">Asist.</button>
+        <button data-action="toggle-hospedaje" class="mini-btn ghost">Hosp.</button>
+        <button data-action="reset" class="mini-btn outline">Reset</button>
         <button data-action="delete" class="mini-btn danger">Borrar</button>
-        <button data-action="reset" class="mini-btn">Reset</button>
       </td>
     </tr>
   </template>

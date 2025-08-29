@@ -352,73 +352,213 @@ body {
     opacity: 1;
 }
 
-@media (max-width: 600px) {
-    .invitation,
-    .admin-panel {
-        max-width: 98vw;
-        padding: 1.2em 0.5em 1.5em 0.5em;
-        border-radius: 12px;
-        box-sizing: border-box;
-    }
-    .decorative-border:before {
-        top: 8px; left: 8px; right: 8px; bottom: 8px;
-        border-radius: 8px;
-    }
-    .logo-img {
-        width: 90vw;
-        max-width: 220px;
-        margin-bottom: 1.2em;
-    }
-    .main-title {
-        font-size: 1.15em;
-        margin-bottom: 1em;
-    }
-    .subtitle,
-    .special-phrase,
-    .con-carino .special-phrase {
-        font-size: 1em !important;
-    }
-    .details-list {
-        font-size: 0.98em;
-        max-width: 98vw;
-        padding-left: 0.5em;
-        padding-right: 0.5em;
-    }
-    .dear,
-    .personal-message {
-        font-size: 1em;
-        margin-left: 0.5em;
-        margin-right: 0.5em;
-    }
-    .rsvp-section {
-        flex-direction: column;
-        gap: 1em;
-    }
-    .confirmation-button,
-    .stay-button,
-    .info-button {
-        width: 100%;
-        min-width: 0;
-        font-size: 1em;
-        padding: 12px 0;
-    }
-    .admin-table {
-        display: block;
-        overflow-x: auto;
-        width: 100%;
-    }
-    .admin-table table {
-        min-width: 500px;
-    }
-    .admin-table th,
-    .admin-table td {
-        font-size: 0.95em;
-        padding: 0.5em 0.2em;
-    }
-    .admin-title {
-        font-size: 1.15em;
-    }
-    .info-section {
-        padding: 1.2em 0.5em 1em 0.5em !important;
-    }
+/* --- Admin refinements --- */
+.admin-card {
+  padding:42px 40px 46px;
+  background:#fffefc;
+}
+.admin-header {
+  text-align:center;
+  margin-bottom:32px;
+}
+.admin-logo img {
+  width:110px;
+  display:block;
+  margin:0 auto 6px;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.12));
+}
+.admin-title {
+  margin:4px 0 4px;
+  font-family:'Lora', serif;
+  font-size:2rem;
+  letter-spacing:.5px;
+  color:var(--accent-dark);
+}
+.admin-subtitle {
+  margin:0;
+  font-style:italic;
+  font-size:.95rem;
+  color:#6a5c4d;
+}
+.card-section {
+  background:#ffffff;
+  border:1px solid #eadfd4;
+  border-radius:18px;
+  padding:26px 24px 28px;
+  margin-bottom:34px;
+  position:relative;
+  overflow:hidden;
+}
+.card-section:before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 85% 15%, rgba(198,151,91,.09), transparent 60%);
+  pointer-events:none;
+}
+.section-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-bottom:12px;
+}
+.section-title {
+  margin:0 0 14px;
+  font-size:1.25rem;
+  color:#4e3d2b;
+  letter-spacing:.5px;
+}
+.guest-form {
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:16px;
+  align-items:end;
+}
+@media (max-width:640px){
+  .guest-form { grid-template-columns:1fr; }
+  .admin-card { padding:34px 24px 40px; }
+}
+
+.field { display:flex; flex-direction:column; gap:6px; }
+.field-label { font-size:.8rem; text-transform:uppercase; letter-spacing:1px; color:#7a6855; }
+.guest-form input {
+  padding:12px 14px;
+  border:2px solid #dacabb;
+  border-radius:12px;
+  font-size:1rem;
+  background:#fffdfa;
+  transition:var(--transition);
+}
+.guest-form input:focus {
+  outline:none;
+  border-color:var(--accent-dark);
+  box-shadow:0 0 0 3px rgba(198,151,91,.25);
+}
+
+.wide-btn { min-width:170px; }
+.small-btn { padding:9px 16px; border-radius:18px; font-size:.78rem; }
+.mini-btn {
+  border-radius:10px;
+  padding:5px 10px;
+  font-size:.68rem;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  background:#e6d6c5;
+  color:#4f3f30;
+  border:1px solid #d9c9b7;
+}
+.mini-btn:hover {
+  background:#dbc7b3;
+}
+.mini-btn.danger {
+  background:#cf6d57;
+  border-color:#c35b43;
+  color:#fff;
+}
+.mini-btn.danger:hover { background:#b94d36; }
+.mini-btn.outline {
+  background:#fff;
+  border:1px solid var(--accent-dark);
+  color:var(--accent-dark);
+}
+.mini-btn.outline:hover {
+  background:var(--accent-dark);
+  color:#fff;
+}
+.mini-btn.ghost {
+  background:transparent;
+  border:1px dashed #b99d7b;
+  color:#7a5d3e;
+}
+.mini-btn.ghost:hover { background:#f5ebe2; }
+
+.actions-cell {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.legend {
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  font-size:.7rem;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  color:#7b6a5a;
+  margin:-4px 0 10px;
+  align-items:center;
+}
+.state.mini { width:16px; height:16px; padding:0; display:inline-block; vertical-align:middle; }
+
+.pretty-table {
+  background:#fff;
+  border:1px solid #e5d8cc;
+  border-radius:14px;
+  overflow:hidden;
+}
+.pretty-table thead th {
+  background:linear-gradient(90deg,#f5ece4,#efe4d9);
+  font-size:.7rem;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:#5d4b38;
+  border:none;
+  padding:10px 10px;
+}
+.pretty-table tbody td {
+  border-top:1px solid #f0e5db;
+  background:#fff;
+}
+.pretty-table tbody tr:nth-child(even) td {
+  background:#fcf8f4;
+}
+.pretty-table tbody tr:hover td {
+  background:#faf1e8;
+}
+.status-cell { text-align:center; }
+
+.table-wrapper.elevated {
+  border-radius:16px;
+  box-shadow:0 4px 12px -2px rgba(0,0,0,.05);
+  background:linear-gradient(#fff,#fff) padding-box,
+             radial-gradient(circle at 80% 15%,rgba(198,151,91,.25),transparent 70%) border-box;
+}
+
+.response-message {
+  margin-top:10px;
+}
+
+.admin-footer {
+  text-align:center;
+  font-size:.7rem;
+  opacity:.7;
+  margin-top:10px;
+  letter-spacing:1px;
+}
+
+/* Subtle scroll shadows */
+.table-wrapper.elevated {
+  position:relative;
+}
+.table-wrapper.elevated:before,
+.table-wrapper.elevated:after {
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  height:10px;
+  pointer-events:none;
+}
+.table-wrapper.elevated:before {
+  top:0;
+  background:linear-gradient(rgba(0,0,0,.08),transparent);
+  opacity:.25;
+}
+.table-wrapper.elevated:after {
+  bottom:0;
+  background:linear-gradient(transparent, rgba(0,0,0,.08));
+  opacity:.25;
 }
