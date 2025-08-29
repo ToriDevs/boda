@@ -5,52 +5,6 @@
   <title>Información Boda</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="styles/main.css">
-  <style>
-        .info-page {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2em;
-            background: #f8f5f0;
-            border-radius: 16px;
-            box-shadow: 0 2px 16px rgba(163, 131, 58, 0.07);
-            text-align: left;
-        }
-        .info-page h1 {
-            font-family: 'Playfair Display', serif;
-            color: var(--olivo);
-            font-size: 2em;
-            margin-bottom: 0.5em;
-            text-align: center;
-        }
-        .info-page h2 {
-            color: var(--oro);
-            font-size: 1.5em;
-            margin-top: 1.5em;
-            margin-bottom: 0.5em;
-        }
-        .info-page ul {
-            margin: 0;
-            padding-left: 1.2em;
-        }
-        .info-page li {
-            margin-bottom: 0.5em;
-            font-size: 1.1em;
-        }
-        .btn-secundario {
-            display: inline-block;
-            margin: 2em auto 0 auto;
-            padding: 0.7em 1.5em;
-            background: var(--oro);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            text-align: center;
-        }
-        .btn-secundario:hover {
-            background: var(--olivo);
-        }
-    </style>
 </head>
 <body>
   <main class="info-page">
@@ -65,9 +19,9 @@
     </section>
     <section>
       <h2>Hospedaje</h2>
-      <p>Si solicitaste hospedaje, nos pondremos en contacto con detalles.</p>
+      <p>Si solicitaste hospedaje, te contactaremos.</p>
     </section>
-    <a href="index.html" class="btn-secundario">Volver</a>
+    <button onclick="history.back()" class="btn-secundario">Volver</button>
   </main>
 </body>
 </html>

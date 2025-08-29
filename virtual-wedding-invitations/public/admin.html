@@ -9,9 +9,7 @@
 <body class="admin-body">
   <main class="admin-panel admin-card invitation decorative-border">
     <header class="admin-header">
-      <div class="admin-logo">
-        <img src="styles/img/GA.png" alt="GA" loading="lazy">
-      </div>
+      <div class="admin-logo"><img src="styles/img/GA.png" alt="GA" loading="lazy"></div>
       <h1 class="admin-title">Gestión de Invitados</h1>
       <p class="admin-subtitle">Crear, compartir y seguir confirmaciones</p>
     </header>
@@ -23,9 +21,7 @@
           <span class="field-label">Nombre completo</span>
           <input type="text" id="guestNameInput" placeholder="Ej: Juan Pérez" autocomplete="off" required>
         </label>
-        <button type="submit" class="btn-principal wide-btn">
-          ➕ Generar link
-        </button>
+        <button type="submit" class="btn-principal wide-btn">➕ Generar link</button>
       </form>
       <div id="createGuestMessage" class="response-message"></div>
     </section>
@@ -43,17 +39,10 @@
         <span><span class="state no mini"></span> No</span>
         <span><span class="state null mini"></span> Pendiente</span>
       </div>
-
       <div class="table-wrapper elevated">
         <table class="guest-table pretty-table">
           <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Link</th>
-              <th>Asistencia</th>
-              <th>Hospedaje</th>
-              <th>Acciones</th>
-            </tr>
+            <tr><th>Nombre</th><th>Link</th><th>Asistencia</th><th>Hospedaje</th><th>Acciones</th></tr>
           </thead>
           <tbody id="guestTableBody">
             <tr><td colspan="5">Cargando...</td></tr>
@@ -63,17 +52,13 @@
       <div id="listMessage" class="response-message"></div>
     </section>
 
-    <footer class="admin-footer">
-      <small>Panel · GA</small>
-    </footer>
+    <footer class="admin-footer"><small>Panel · GA</small></footer>
   </main>
 
   <template id="guestRowTemplate">
     <tr>
       <td data-field="nombre"></td>
-      <td data-field="link" class="small-col">
-        <button data-action="copy" class="mini-btn outline">Copiar</button>
-      </td>
+      <td data-field="link" class="small-col"><button data-action="copy" class="mini-btn outline">Copiar</button></td>
       <td data-field="asistencia" class="status-cell"></td>
       <td data-field="hospedaje" class="status-cell"></td>
       <td data-field="acciones" class="small-col actions-cell">
@@ -85,7 +70,7 @@
     </tr>
   </template>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"></script>
-  <script type="module" src="scripts/admin.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="scripts/admin.js"></script>
 </body>
 </html>

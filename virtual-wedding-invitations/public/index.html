@@ -16,21 +16,12 @@
     <h1 class="main-title">Estás cordialmente invitado<br>a nuestra boda</h1>
 
     <div class="subtitle">
-      <span class="special-phrase">
-        Será un honor compartir contigo este capítulo tan especial de nuestras vidas.
-      </span>
+      <span class="special-phrase">Será un honor compartir contigo este capítulo tan especial de nuestras vidas.</span>
     </div>
 
     <ul class="details-list">
       <li><span class="icon icon-date"></span> <b>Fecha:</b> 26–28 septiembre de 2025</li>
-      <li>
-        <span class="icon icon-location"></span>
-        <b>Lugar:</b>
-        <a class="map-link" target="_blank" rel="noopener"
-           href="https://www.google.com/maps/dir//Lugar+da+Pedreira,+27843+Vilalba,+Lugo/">
-           Lugar da Pedreira, Lugo
-        </a>
-      </li>
+      <li><span class="icon icon-location"></span> <b>Lugar:</b> <a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/dir//Lugar+da+Pedreira,+27843+Vilalba,+Lugo/">Lugar da Pedreira, Lugo</a></li>
       <li><span class="icon icon-time"></span> <b>Hora:</b> Llegada 16:00</li>
       <li><span class="icon icon-dress"></span> <b>Etiqueta:</b> Semi-formal</li>
     </ul>
@@ -44,22 +35,13 @@
     </div>
 
     <div class="rsvp-section" id="rsvpSection" hidden>
-      <button id="confirmYesButton" class="confirmation-button btn-principal">
-        <span class="icon-check">✔</span> Sí, asistiré
-      </button>
-      <button id="confirmNoButton" class="confirmation-button btn-secundario">
-        <span class="icon-cross">✖</span> No podré asistir
-      </button>
+      <button id="confirmYesButton" class="confirmation-button btn-principal"><span>✔</span> Sí, asistiré</button>
+      <button id="confirmNoButton" class="confirmation-button btn-secundario"><span>✖</span> No podré asistir</button>
     </div>
 
     <div id="hospedajeContainer" style="display:none;">
-      <div class="hospedaje-label">
-        <span class="icon icon-bed"></span>
-        Indica si requieres hospedaje.
-      </div>
-      <button id="hospedajeButton" class="stay-button btn-principal" data-state="off">
-        Solicitar hospedaje
-      </button>
+      <div class="hospedaje-label"><span class="icon icon-bed"></span> Indica si requieres hospedaje.</div>
+      <button id="hospedajeButton" class="stay-button btn-principal" data-state="off">Solicitar hospedaje</button>
     </div>
 
     <div class="info-actions">
@@ -74,7 +56,7 @@
     </div>
   </main>
 
-  <!-- Solo tu script (ESM import interno) -->
-  <script type="module" src="scripts/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="scripts/main.js"></script>
 </body>
 </html>
